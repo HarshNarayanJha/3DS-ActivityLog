@@ -1,0 +1,11 @@
+# PTM (PlayHistory and Pedometer) backup GM9 script
+# This will create a backup of your current PTM data
+# author: smudge
+# Based on StreetPass (KiTA) and Friend-save (SvenDaHacker64)
+
+set ERRORMSG      "PTM data file backup failed"
+
+ask "Create PTM (PlayHistory and Pedometer) data file in $[GM9OUT]?"
+findnot $[GM9OUT]/ptm_??? OUTPATH
+cp 1:/data/$[SYSID0]/sysdata/00010022/00000000 $[OUTPATH]
+echo "Backup created successfully:\n$[OUTPATH]"
