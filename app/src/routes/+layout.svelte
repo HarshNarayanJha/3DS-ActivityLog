@@ -1,7 +1,13 @@
 <script lang="ts">
-	import '../app.css';
+  import "$/app.css"
+  import Navbar from "$components/Navbar.svelte"
+  import { ModeWatcher } from "mode-watcher"
 
-	let { children } = $props();
+  let { children } = $props()
 </script>
 
-{@render children()}
+<ModeWatcher />
+<Navbar />
+<div class="min-h-svh w-full">
+  {@render children()}
+</div>
