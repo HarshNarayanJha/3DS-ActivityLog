@@ -1,4 +1,4 @@
-# 3DS Playtime Browser
+# 3DS Activity Log
 
 > [!WARNING]
 > The README below is WIP, might contain random notes.
