@@ -5,7 +5,6 @@
   import TopScreen from "$components/landing/TopScreen.svelte"
   import LogEntryCard from "$components/LogEntryCard.svelte"
   import { globalState as gState } from "$/lib/global.svelte"
-  import { EntryType } from "$/lib/types"
 
   let csvFile = $state<File | null>(null)
 
@@ -15,7 +14,7 @@
 
     try {
       const contents = await csvFile.text()
-      gState.playHistory = parser.parse(contents)
+      gState.playHistory = await parser.parse(contents)
 
       if (gState.playHistory === null) {
         console.error("Error Parsing PlayHistory")
@@ -40,7 +39,7 @@
     <!-- <Landing /> -->
   {:else}
     <div class="mx-auto h-auto w-full max-w-4xl space-y-8">
-      {#each gState.playHistory.entries().take(100) as [r, entry] (r)}
+      {#each gState.playHistory.entries().take(50) as [r, entry] (r)}
         <LogEntryCard playEntry={entry} />
       {/each}
     </div>

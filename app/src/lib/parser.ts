@@ -1,3 +1,4 @@
+import { getTitle } from "./3dsdbapi"
 import {
   SYSTEM_APPLETS,
   SYSTEM_APPLETS_TIDHIGH,
@@ -17,7 +18,7 @@ import {
 export class PlayHistoryParser {
   private entries: PlayHistory = new Map()
 
-  public parse(input: string): PlayHistory {
+  public async parse(input: string): Promise<PlayHistory> {
     this.reset()
 
     const lines = input.trim().split("\n")
@@ -40,7 +41,7 @@ export class PlayHistoryParser {
       }
 
       const { entryType, playEvent, systemEvent } = this.handleEvent(tid, logInfo)
-      const { titleData, appletData } = this.findAppData(tid)
+      const { titleData, appletData } = await this.findAppData(tid)
 
       if (entryType === EntryType.SYSTEM && systemEvent === undefined) {
         throw new Error(`Invalid Data. Expected SYSTEM event but System Event not found. ${record}`)
@@ -77,7 +78,9 @@ export class PlayHistoryParser {
     return this.entries
   }
 
-  private findAppData(_tid: string): { titleData?: TitleData; appletData?: AppletData } {
+  private async findAppData(
+    _tid: string
+  ): Promise<{ titleData?: TitleData; appletData?: AppletData }> {
     const tid = _tid.toUpperCase().trim()
 
     if (tid === SYSTEM_EVENT_TID) {
@@ -96,15 +99,9 @@ export class PlayHistoryParser {
         appletData: SYSTEM_APPLETS[tidLow]
       }
     } else {
+      const titleData = await getTitle(tid)
       return {
-        titleData: {
-          tid,
-          titleName: "TITLE NAME",
-          publisher: "PUBLISHER",
-          serial: "CTR-XYZ",
-          region: "USA",
-          trimmedSizeBytes: 12345
-        }
+        titleData
       }
     }
   }

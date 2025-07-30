@@ -21,13 +21,40 @@ and https://gbatemp.net/threads/playhistory-dat-timestamp.580853/post-10085500 f
 
 ## Steps to get your .dat files
 
-1. Copy the gm9 script (I bear no responsibility, ask smudge) and run it
-2. Or go to `nand:/data/<ID0>/sysdata/00010022/` and copy the `00000000` file to your computer
-3. `git clone https://github.com/wwylele/3ds-save-tool.git`
-4. go in
-5. `python disa-extract.py path/to/00000000 ./src/data`
-6. See you have both the files
+1. Clone this repo
+2. `cd src && mkdir in` (we will store the file from 3DS in here)
+3. Get your `00000000` file (PTM savegame data)
+   a. Copy the gm9 script (I bear no responsibility, ask smudge) and run it
+   b. Or go to `nand:/data/<ID0>/sysdata/00010022/` and copy the `00000000` file to your computer at `src/in` (in your cloned (this) repo)
+4. `cd ..` (go back to root of the cloned repo)
+5. `git clone https://github.com/wwylele/3ds-save-tool.git` at the root of the (cloned) repo (to extract contents out of `00000000`)
+6. `mkdir src/data` (will store extracted output here)
+7. `cd 3ds-save-tool`
+8. `python disa-extract.py ../src/in/00000000 ../src/data/`
+9. See you have both the files in `src/data` (`PlayHistory.dat` and `Pedometer.dat`)
+
+## Convert PlayHistory.dat to PlayHistory.csv
+
+1. `cd src`
+2. `python playhistory.py`
+3. See you have your `data/playhistory.csv` file
+4. Open the web ui and upload this csv file!
 
 ## Next target
 
-Make a 3DS themed website
+Make a 3DS themed website (WIP)
+
+## Credits (WIP)
+
+https://github.com/wwylele/3ds-save-tool
+
+https://3dsdb.com/
+https://api.ghseshop.cc/
+https://github.com/Ryuzaki-MrL/3ds/blob/gh-pages/homebrew/hbdb.json
+https://github.com/ghost-land/3dsdbapi
+https://db.universal-team.net/data/full.json
+
+<!-- not used -->
+
+https://www.gamebrew.org/wiki/List_of_3DS_homebrew_applications
+https://www.mobygames.com/platform/3ds/

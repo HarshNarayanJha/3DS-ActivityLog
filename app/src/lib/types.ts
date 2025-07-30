@@ -22,12 +22,21 @@ export enum SystemEvent {
   SYSTEM_CLOCK_CHANGE_END = 0b1100
 }
 
+export type Region =
+  | "North America"
+  | "Europe"
+  | "Japan"
+  | "China"
+  | "Korea"
+  | "Taiwan"
+  | "Region Free"
+
 export interface TitleData {
   tid: string
   titleName: string
   publisher: string
   serial: string
-  region: "USA" | "EUR" | "JPN"
+  region: Region
   trimmedSizeBytes: number
 }
 
