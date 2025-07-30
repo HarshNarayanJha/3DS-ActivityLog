@@ -1,6 +1,8 @@
 <script lang="ts">
   import FileUpload from "$components/FileUpload.svelte"
   import Landing from "$components/Landing.svelte"
+  import BottomScreen from "$components/landing/BottomScreen.svelte"
+  import TopScreen from "$components/landing/TopScreen.svelte"
 
   let csvFile = $state<File | null>(null)
 
@@ -9,10 +11,13 @@
   }
 </script>
 
-<div class="grid min-h-[70svh] w-full place-content-center gap-8">
+<div class="grid min-h-[70svh] w-full grid-cols-1 place-content-center gap-4 px-16 py-24">
   {#if csvFile === null}
-    <Landing />
-    <FileUpload onSuccessfulUpload={onUpload} />
+    <TopScreen />
+    <BottomScreen>
+      <FileUpload onSuccessfulUpload={onUpload} />
+    </BottomScreen>
+    <!-- <Landing /> -->
   {:else}
     <div class="text-center">
       <h2>CSV File Uploaded</h2>

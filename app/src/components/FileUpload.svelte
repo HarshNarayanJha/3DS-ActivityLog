@@ -19,7 +19,6 @@
 </script>
 
 <div class="space-y-2">
-  <p class="prose text-center prose-gray dark:prose-invert">Upload your PlayHistory.csv file</p>
   <Dropzone
     on:drop={handleFilesSelect}
     accept=".csv"
