@@ -33,7 +33,9 @@ with open("data/PlayHistory.dat", "rb") as f:
         final_timestamp = timestamp + epoch_2000
         date = datetime.fromtimestamp(final_timestamp, UTC)
 
-        # print(f"Record {record_num:03d}: TID: {tidhigh:08x} {tidlow:08x}, Log: {log_info:04b}, Date: {date}")
+        print(
+            f"Record {record_num:03d}: TID: {tidhigh:08x} {tidlow:08x}, Log: {log_info:04b}, Date: {date}, Extra: {extra:032b}"
+        )
         csv_writer.writerow([record_num + 1, f"{tidhigh:08x}{tidlow:08x}", log_info, int(final_timestamp)])
 
         record_num += 1

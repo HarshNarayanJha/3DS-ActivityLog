@@ -18,17 +18,29 @@ export enum SystemEvent {
   SLEEP_START = 0b1000,
   SLEEP_END = 0b1001,
   N3DS_SERVICES_STOPPED = 0b1010,
-  STSYEM_CLOCK_CHANGE_START = 0b1011,
+  SYSTEM_CLOCK_CHANGE_START = 0b1011,
   SYSTEM_CLOCK_CHANGE_END = 0b1100
 }
 
-export interface PlayEntry {
+export interface TitleData {
   tid: string
   titleName: string
   publisher: string
   serial: string
   region: "USA" | "EUR" | "JPN"
   trimmedSizeBytes: number
+}
+
+export interface AppletData {
+  tid: string
+  appletName: string
+  serial: string
+  regions: Array<"USA" | "EUR" | "JPN" | "CHN" | "KOR" | "TWN">
+}
+
+export interface PlayEntry {
+  title?: TitleData
+  applet?: AppletData
   entryType: EntryType
   playEvent?: PlayEvent
   systemEvent?: SystemEvent
