@@ -1,41 +1,38 @@
 import type { Region, TitleData } from "./types"
-import rawTitleDB from "./3ds_releases.json"
-import rawTitleDB2 from "./3dsdb_2_US.json"
+import rawTitleDB from "./final_local_title_list.json"
+import rawFallbackDB from "./final_fallback_title_list.json"
 
 const titleDB: Record<string, any> = rawTitleDB as Record<string, any>
-const titleDB2: Record<string, any> = rawTitleDB2 as Record<string, any>
+const fallbackDB: Record<string, any> = rawFallbackDB as Record<string, any>
 
 const cache = new Map<string, any>()
 
 export const stats = {
   cache: new Set(),
-  db1: new Set(),
-  db2: new Set(),
+  local: new Set(),
   notFound: new Set()
 }
 
 export const getTitle = async (tid: string): Promise<TitleData> => {
   // search the cache first
   if (cache.has(tid)) {
-    stats.cache.add(`${tid}: ${cache.get(tid).titleName}`)
     // console.log(`Cache hit`)
+    stats.cache.add(`${tid}: ${cache.get(tid).titleName}`)
     return cache.get(tid)
   }
 
-  // check local title db2
-  const localData2 = findTitleInLocalDB2(tid)
-  if (localData2 !== null) {
-    stats.db2.add(`${tid}: ${localData2.titleName}`)
-    cache.set(tid, localData2)
-    return localData2
+  const gameData = findTitleInLocalDB(tid)
+  if (gameData !== null) {
+    stats.local.add(`${tid}: ${gameData.titleName}`)
+    cache.set(tid, gameData)
+    return gameData
   }
 
-  // check local title db
-  const localData = findTitleInLocalDB(tid)
-  if (localData !== null) {
-    stats.db1.add(`${tid}: ${localData.titleName}`)
-    cache.set(tid, localData)
-    return localData
+  const fallbackData = findTitleInFallbackDB(tid)
+  if (fallbackData !== null) {
+    stats.local.add(`${tid}: ${fallbackData.titleName}`)
+    cache.set(tid, fallbackData)
+    return fallbackData
   }
 
   stats.notFound.add(`${tid}: Unknown`)
@@ -94,11 +91,12 @@ export const getTitle = async (tid: string): Promise<TitleData> => {
   // console.log(`Not found ${tid}`)
   const data = {
     tid,
+    uid: "",
     titleName: "Unknown",
-    serial: "Unknown",
+    publisher: "Unknown",
+    serial: "???",
     region: parseRegion("Region Free"),
-    publisher: "Nintendo",
-    trimmedSizeBytes: 1234
+    trimmedSizeBytes: 0
   }
   cache.set(tid, data)
   return data
@@ -127,32 +125,40 @@ const parseRegion = (region: string): Region => {
 
 const findTitleInLocalDB = (tid: string): TitleData | null => {
   if (tid in titleDB) {
-    // console.log("Found in local db")
+    // console.log("Found in game db")
     const rawData = titleDB[tid]
     return {
       tid,
-      titleName: rawData.name,
+      uid: rawData.uid,
+      titleName: rawData.titleName,
+      publisher: rawData.publisher,
       serial: rawData.serial,
       region: parseRegion(rawData.region),
-      publisher: rawData.publisher,
-      trimmedSizeBytes: rawData.trimmedsize
+      trimmedSizeBytes: rawData.trimmedSizeBytes,
+      genres: rawData.genres,
+      iconUrl: rawData.iconUrl,
+      bannerUrl: rawData.bannerUrl
     }
   }
 
   return null
 }
 
-const findTitleInLocalDB2 = (tid: string): TitleData | null => {
-  if (tid in titleDB2) {
-    // console.log("Found in local db 2")
-    const rawData = titleDB2[tid]
+const findTitleInFallbackDB = (tid: string): TitleData | null => {
+  if (tid in fallbackDB) {
+    // console.log("Found in game db")
+    const rawData = fallbackDB[tid]
     return {
       tid,
-      titleName: rawData.name,
+      uid: rawData.uid,
+      titleName: rawData.titleName,
+      publisher: rawData.publisher,
       serial: rawData.serial,
       region: parseRegion(rawData.region),
-      publisher: rawData.publisher,
-      trimmedSizeBytes: rawData.trimmedsize
+      trimmedSizeBytes: rawData.trimmedSizeBytes,
+      genres: rawData.genres
+      // iconUrl: rawData.iconUrl,
+      // bannerUrl: rawData.bannerUrl
     }
   }
 

@@ -51,6 +51,7 @@ https://github.com/wwylele/3ds-save-tool
 
 Primary Title List
 https://github.com/hax0kartik/3dsdb (a little bit modified)
+https://github.com/ghost-land/3dsdb
 
 For secondary title list
 https://3dsdb.com/

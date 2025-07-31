@@ -29,15 +29,26 @@ export type Region =
   | "China"
   | "Korea"
   | "Taiwan"
+  | "Australia"
+  | "Canada"
   | "Region Free"
+  | "Digital Demos"
 
 export interface TitleData {
   tid: string
+  uid: string
   titleName: string
+  description?: string
+  releaseDate?: Date
   publisher: string
   serial: string
+  platform?: string
   region: Region
   trimmedSizeBytes: number
+  genres?: Array<string>
+  iconUrl?: string
+  bannerUrl?: string
+  boxArtUrl?: string
 }
 
 export interface AppletData {
