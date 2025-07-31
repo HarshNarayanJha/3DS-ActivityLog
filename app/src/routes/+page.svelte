@@ -5,6 +5,7 @@
   import TopScreen from "$components/landing/TopScreen.svelte"
   import LogEntryCard from "$components/LogEntryCard.svelte"
   import { globalState as gState } from "$/lib/global.svelte"
+  import { stats } from "$/lib/3dsdbapi"
 
   let csvFile = $state<File | null>(null)
 
@@ -15,6 +16,7 @@
     try {
       const contents = await csvFile.text()
       gState.playHistory = await parser.parse(contents)
+      console.log(stats)
 
       if (gState.playHistory === null) {
         console.error("Error Parsing PlayHistory")

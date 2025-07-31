@@ -1,32 +1,51 @@
 import type { Region, TitleData } from "./types"
 import rawTitleDB from "./3ds_releases.json"
-import rawHwDB from "./hbdb.json"
+import rawTitleDB2 from "./3dsdb_2_US.json"
 
 const titleDB: Record<string, any> = rawTitleDB as Record<string, any>
-const hbDB: Record<string, any> = rawHwDB as Record<string, any>
+const titleDB2: Record<string, any> = rawTitleDB2 as Record<string, any>
 
 const cache = new Map<string, any>()
+
+export const stats = {
+  cache: new Set(),
+  db1: new Set(),
+  db2: new Set(),
+  notFound: new Set()
+}
 
 export const getTitle = async (tid: string): Promise<TitleData> => {
   // search the cache first
   if (cache.has(tid)) {
-    console.log(`Cache hit`)
+    stats.cache.add(`${tid}: ${cache.get(tid).titleName}`)
+    // console.log(`Cache hit`)
     return cache.get(tid)
+  }
+
+  // check local title db2
+  const localData2 = findTitleInLocalDB2(tid)
+  if (localData2 !== null) {
+    stats.db2.add(`${tid}: ${localData2.titleName}`)
+    cache.set(tid, localData2)
+    return localData2
   }
 
   // check local title db
   const localData = findTitleInLocalDB(tid)
   if (localData !== null) {
+    stats.db1.add(`${tid}: ${localData.titleName}`)
     cache.set(tid, localData)
     return localData
   }
 
+  stats.notFound.add(`${tid}: Unknown`)
+
   // check hbdb
-  const hbData = findTitleInHbDB(tid)
-  if (hbData !== null) {
-    cache.set(tid, hbData)
-    return hbData
-  }
+  // const hbData = findTitleInHbDB(tid)
+  // if (hbData !== null) {
+  //   cache.set(tid, hbData)
+  //   return hbData
+  // }
 
   // check remote title db
   // console.log(`Calling API`)
@@ -72,7 +91,7 @@ export const getTitle = async (tid: string): Promise<TitleData> => {
 
   // return data
 
-  console.log(`Not found ${tid}`)
+  // console.log(`Not found ${tid}`)
   const data = {
     tid,
     titleName: "Unknown",
@@ -108,7 +127,7 @@ const parseRegion = (region: string): Region => {
 
 const findTitleInLocalDB = (tid: string): TitleData | null => {
   if (tid in titleDB) {
-    console.log("Found in local db")
+    // console.log("Found in local db")
     const rawData = titleDB[tid]
     return {
       tid,
@@ -123,19 +142,36 @@ const findTitleInLocalDB = (tid: string): TitleData | null => {
   return null
 }
 
-const findTitleInHbDB = (tid: string): TitleData | null => {
-  if (tid in hbDB) {
-    console.log("Found in hb db")
-    const rawData = hbDB[tid]
+const findTitleInLocalDB2 = (tid: string): TitleData | null => {
+  if (tid in titleDB2) {
+    // console.log("Found in local db 2")
+    const rawData = titleDB2[tid]
     return {
       tid,
       titleName: rawData.name,
-      serial: "",
-      region: parseRegion("Region Free"),
-      publisher: rawData.author,
-      trimmedSizeBytes: 1234
+      serial: rawData.serial,
+      region: parseRegion(rawData.region),
+      publisher: rawData.publisher,
+      trimmedSizeBytes: rawData.trimmedsize
     }
   }
 
   return null
 }
+
+// const findTitleInHbDB = (tid: string): TitleData | null => {
+//   if (tid in hbDB) {
+//     // console.log("Found in hb db")
+//     const rawData = hbDB[tid]
+//     return {
+//       tid,
+//       titleName: rawData.name,
+//       serial: "",
+//       region: parseRegion("Region Free"),
+//       publisher: rawData.author,
+//       trimmedSizeBytes: 1234
+//     }
+//   }
+
+//   return null
+// }

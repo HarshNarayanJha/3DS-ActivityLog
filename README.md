@@ -46,15 +46,27 @@ Make a 3DS themed website (WIP)
 
 ## Credits (WIP)
 
+For being to extract the data at all
 https://github.com/wwylele/3ds-save-tool
 
+Primary Title List
+https://github.com/hax0kartik/3dsdb (a little bit modified)
+
+For secondary title list
 https://3dsdb.com/
+
+Will use as an API
 https://api.ghseshop.cc/
-https://github.com/Ryuzaki-MrL/3ds/blob/gh-pages/homebrew/hbdb.json
 https://github.com/ghost-land/3dsdbapi
+
+Had used but doesn't has titleids
 https://db.universal-team.net/data/full.json
 
-<!-- not used -->
+For homebrew titles (Will Use)
+https://wiki.hacks.guide/wiki/User:ItsCrocoSwine/3DS_homebrew_title_information
 
+Not Used yet
 https://www.gamebrew.org/wiki/List_of_3DS_homebrew_applications
-https://www.mobygames.com/platform/3ds/
+
+Has it all, but no title ids
+https://www.gametdb.com/3DS/List
