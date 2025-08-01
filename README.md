@@ -40,6 +40,11 @@ and https://gbatemp.net/threads/playhistory-dat-timestamp.580853/post-10085500 f
 3. See you have your `data/playhistory.csv` file
 4. Open the web ui and upload this csv file!
 
+## Notes (to self)
+
+- probably have to let user select their timezone or identify since 3ds doesn't has any tz at all
+- 3ds doesn't obey any tz, user just sets time, and AL writes timestamps based on that time, hence user's respective timezone (in which they would expect the time to be)
+
 ## Next target
 
 Make a 3DS themed website (WIP)

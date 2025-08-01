@@ -1,6 +1,7 @@
 import csv
 import struct
-from datetime import UTC, datetime, timezone
+import zoneinfo
+from datetime import datetime
 
 START_ENTRY_SIZE = 4  # u32 4 bytes
 TOTAL_ENTRIES_SIZE = 4  # u32 4 bytes
@@ -21,6 +22,8 @@ with open("data/PlayHistory.dat", "rb") as f:
     # Record Index number (from 0), TID Low, TID High, Log info flags, UNIX timestamp
     csv_writer.writerow(["Record", "TID", "Log_Info", "Timestamp"])
 
+    records = []
+
     while record_num < total_entries:
         data = f.read(RECORD_SIZE)
         if len(data) < RECORD_SIZE:
@@ -28,17 +31,22 @@ with open("data/PlayHistory.dat", "rb") as f:
 
         tidhigh, tidlow, extra = struct.unpack("<III", data)
         log_info, timestamp = extra & 0x0000000F, (extra >> 4) * 60
-
-        epoch_2000 = datetime(2000, 1, 1, tzinfo=timezone.utc).timestamp()
+        epoch_2000 = datetime(2000, 1, 1, tzinfo=zoneinfo.ZoneInfo("Asia/Kolkata")).timestamp()
         final_timestamp = timestamp + epoch_2000
-        date = datetime.fromtimestamp(final_timestamp, UTC)
+        date = datetime.fromtimestamp(final_timestamp, zoneinfo.ZoneInfo("Asia/Kolkata"))
 
-        # print(
-        # f"Record {record_num:03d}: TID: {tidhigh:08x} {tidlow:08x}, Log: {log_info:04b}, Date: {date}, Extra: {extra:032b}"
-        # )
-        csv_writer.writerow([record_num + 1, f"{tidhigh:08x}{tidlow:08x}", log_info, int(final_timestamp)])
+        print(
+            f"Record {record_num:03d}: TID: {tidhigh:08x} {tidlow:08x}, Log: {log_info:04b}, Date: {date}, Extra: {extra:032b}"
+        )
+        records.append([record_num + 1, f"{tidhigh:08x}{tidlow:08x}", log_info, int(final_timestamp)])
 
         record_num += 1
+
+    # sort by timestamp
+    records.sort(key=lambda x: x[3])
+
+    for r in records:
+        csv_writer.writerow(r)
 
     csv_file.close()
     print("wrote to data/playhistory.csv.")

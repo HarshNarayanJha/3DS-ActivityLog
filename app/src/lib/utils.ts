@@ -1,7 +1,7 @@
 import { DateTime } from "luxon"
 
 export const parseTimestamp = (timestamp: number) => {
-  const dt = DateTime.fromSeconds(timestamp)
+  const dt = DateTime.fromSeconds(timestamp, { zone: "Asia/Kolkata" })
   if (!dt.isValid) throw new Error(`Invalid datetime: ${dt.invalidReason}`)
   return dt
 }
