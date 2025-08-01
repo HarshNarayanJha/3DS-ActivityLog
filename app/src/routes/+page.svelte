@@ -3,9 +3,9 @@
   import FileUpload from "$components/FileUpload.svelte"
   import BottomScreen from "$components/landing/BottomScreen.svelte"
   import TopScreen from "$components/landing/TopScreen.svelte"
-  import LogEntryCard from "$components/LogEntryCard.svelte"
   import { globalState as gState } from "$/lib/global.svelte"
   import { stats } from "$/lib/3dsdbapi"
+  import ActivityLogViewer from "$components/ActivityLogViewer.svelte"
 
   let csvFile = $state<File | null>(null)
 
@@ -26,7 +26,7 @@
       console.log(`${gState.playHistory.size} Entries parsed`)
     } catch (error) {
       console.error(error)
-      gState.playHistory = null
+      gState.reset()
       csvFile = null
     }
   }
@@ -40,10 +40,12 @@
     </BottomScreen>
     <!-- <Landing /> -->
   {:else}
-    <div class="mx-auto h-auto w-full max-w-4xl space-y-8">
-      {#each gState.playHistory.entries().take(50) as [r, entry] (r)}
-        <LogEntryCard playEntry={entry} />
-      {/each}
-    </div>
+    <ActivityLogViewer
+      playHistory={gState.playHistory}
+      dates={gState.dates}
+      firstDate={gState.firstDate}
+      lastDate={gState.lastDate}
+      years={gState.years}
+    />
   {/if}
 </div>

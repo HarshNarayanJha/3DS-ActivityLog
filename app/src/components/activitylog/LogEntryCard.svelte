@@ -41,9 +41,18 @@
   {:else}
     {#if entryType === EntryType.APPLICATION}
       <p class="font-mono text-sm">{title!.tid.toUpperCase()}</p>
-      <h3 class="mb-0 font-bold">{title!.titleName}</h3>
-      <p class="mt-0 mb-0 text-sm">{title!.publisher}</p>
-      <span class="font-mono text-xs">{title!.serial} ({title!.region.toUpperCase()})</span>
+      <div class="flex flex-row items-center gap-2">
+        <!-- <img
+          src={`https://art.gametdb.com/3ds/box/US/${title!.serial.split("-")[2]}.png?1451868970`}
+          alt=""
+        /> -->
+        <img src={`https://api.ghseshop.cc/${title!.tid}/icon`} alt="" />
+        <div>
+          <h3 class="mb-0 font-bold">{title!.titleName}</h3>
+          <p class="mt-0 mb-0 text-sm">{title!.publisher}</p>
+          <span class="font-mono text-xs">{title!.serial} ({title!.region.toUpperCase()})</span>
+        </div>
+      </div>
     {:else if entryType === EntryType.APPLET}
       <p class="font-mono text-sm">{applet!.tid.toUpperCase()}</p>
       <h3 class="mb-0 font-bold">{applet!.appletName}</h3>

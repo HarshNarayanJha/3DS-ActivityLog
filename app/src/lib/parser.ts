@@ -75,6 +75,12 @@ export class PlayHistoryParser {
         })
     }
 
+    this.entries = new Map(
+      [...this.entries.entries()].sort(([ak, av], [bk, bv]) => {
+        return av.timestamp - bv.timestamp
+      })
+    )
+
     return this.entries
   }
 
