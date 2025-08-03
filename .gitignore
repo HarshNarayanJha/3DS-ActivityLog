@@ -1,5 +1,6 @@
 3ds-save-tool
 output
+src/in
 saves
-data
+src/data
 *.o

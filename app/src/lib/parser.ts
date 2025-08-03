@@ -23,6 +23,8 @@ export class PlayHistoryParser {
 
     const lines = input.trim().split("\n")
 
+    console.log(`Ready to parse ${lines.length} Lines`)
+
     // skip header
     for (let i = 1; i < lines.length; i++) {
       const values = lines[i].trim().split(",")
@@ -64,22 +66,23 @@ export class PlayHistoryParser {
         throw new Error(`Invalid Data. Expected APPLET event but Applet Data not found. ${record}`)
       }
 
-      if (entryType === EntryType.APPLICATION)
-        this.entries.set(record, {
-          title: titleData,
-          applet: appletData,
-          entryType,
-          playEvent,
-          systemEvent,
-          timestamp
-        })
+      this.entries.set(record, {
+        title: titleData,
+        applet: appletData,
+        entryType,
+        playEvent,
+        systemEvent,
+        timestamp
+      })
     }
 
+    console.log(`Finished with ${this.entries.size} Entries. Beginning to sort.`)
     this.entries = new Map(
       [...this.entries.entries()].sort(([ak, av], [bk, bv]) => {
         return av.timestamp - bv.timestamp
       })
     )
+    console.log(`Sorting done.`)
 
     return this.entries
   }

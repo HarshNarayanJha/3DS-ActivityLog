@@ -17,8 +17,8 @@
   interface Props {
     playHistory: PlayHistory
     dates: DateTime<true>[]
-    firstDate: DateTime<true> | null
-    lastDate: DateTime<true> | null
+    firstDate: DateTime<true>
+    lastDate: DateTime<true>
     years: number[]
   }
 
@@ -27,16 +27,40 @@
   let frequency = $state<FrequencyType>("day")
   let viewType = $state<ListViewType>("card")
 
+  // svelte-ignore state_referenced_locally
+  console.log(
+    `Initializing frequency to ${frequency} and viewType to ${viewType}. Last day is ${lastDate.toString()}`
+  )
+
   // holds the currently visible range [indexStart, indexEnd)
-  // initial it's the last day
+  // initial is the last day
   const [initialLow, initialHigh] = findIndexRangeByDateRange(
-    lastDate!.startOf("day"),
-    lastDate!.endOf("day"),
+    lastDate.startOf("day"),
+    lastDate.endOf("day"),
     dates
   )
   const initialSlice: [number, number] = [initialLow, initialHigh]
 
+  console.log(`Setting initial slice to ${initialSlice} to cover lastDay`)
+
   let currentSlice: [number, number] = $state(initialSlice)
+  let currentSliceDate: [DateTime<true>, DateTime<true>] = $state([
+    dates.at(initialLow)!,
+    dates.at(initialHigh - 1)!
+  ])
+
+  let currentSliceDisplay = $derived.by(() => {
+    switch (frequency) {
+      case "day":
+        return formatDayViewDate(currentSliceDate[0])
+      case "week":
+        return formatWeekViewDates(currentSliceDate[0], currentSliceDate[1])
+      case "month":
+        return formatMonthViewDate(currentSliceDate[0])
+      case "year":
+        return formatYearViewDate(currentSliceDate[0])
+    }
+  })
 
   function onFrequencyChange(newFreq: FrequencyType) {
     switch (newFreq) {
@@ -47,7 +71,8 @@
         const dayStart = dates.at(middle)!.startOf("day")
         const dayEnd = dates.at(middle)!.endOf("day")
         const [rangeLow, rangeHigh] = findIndexRangeByDateRange(dayStart, dayEnd, dates)
-        currentSlice = [middle, middle]
+        currentSlice = [rangeLow, rangeHigh]
+        currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
         break
       }
       case "week": {
@@ -56,6 +81,7 @@
         const weekEnd = dates.at(middle)!.endOf("week", { useLocaleWeeks: true })
         const [rangeLow, rangeHigh] = findIndexRangeByDateRange(weekStart, weekEnd, dates)
         currentSlice = [rangeLow, rangeHigh]
+        currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
         break
       }
       case "month": {
@@ -64,6 +90,7 @@
         const monthEnd = dates.at(middle)!.endOf("month")
         const [rangeLow, rangeHigh] = findIndexRangeByDateRange(monthStart, monthEnd, dates)
         currentSlice = [rangeLow, rangeHigh]
+        currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
         break
       }
       case "year": {
@@ -72,6 +99,7 @@
         const yearEnd = dates.at(middle)!.endOf("year")
         const [rangeLow, rangeHigh] = findIndexRangeByDateRange(yearStart, yearEnd, dates)
         currentSlice = [rangeLow, rangeHigh]
+        currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
         break
       }
     }
@@ -79,113 +107,93 @@
 
   function onViewChange(newView: ListViewType) {}
 
-  function handleClickPrevSlice() {
+  function handleClickPrevSlice(nonEmpty: boolean = false) {
+    console.log(`Handling prev slice click with nonEmpty=${nonEmpty}`)
     switch (frequency) {
       case "day": {
-        // change to next day
-        const currentDay = dates.at(currentSlice[0])!
-        const prevDay = currentDay.minus({ days: 1 })
+        // change to prev day
+        console.log("Prev slice click for day view")
+        let prevDay
+
+        if (nonEmpty) {
+          if (currentSlice[0] > 0) {
+            prevDay = dates.at(currentSlice[0] - 1)!
+            console.log(`Previous Non empty Day is ${prevDay.toString()}`)
+          } else {
+            console.log("Can't go back anymore")
+            break
+          }
+        } else {
+          const currentDay = currentSliceDate[0]
+          prevDay = currentDay.minus({ hours: 24 })
+          console.log(`Previous Day is ${prevDay.toString()}`)
+        }
+
         const [rangeLow, rangeHigh] = findIndexRangeByDateRange(
           prevDay.startOf("day"),
-          prevDay.plus({ days: 1 }),
+          prevDay.endOf("day"),
           dates
         )
-        currentSlice = [rangeLow, rangeHigh]
-        break
-      }
-      case "week": {
-        // change to next week
-        const currentWeek = dates.at(currentSlice[0])!
-        const prevWeek = currentWeek.minus({ weeks: 1 })
-        const [rangeLow, rangeHigh] = findIndexRangeByDateRange(
-          prevWeek.startOf("week"),
-          prevWeek.plus({ weeks: 1 }),
-          dates
-        )
-        currentSlice = [rangeLow, rangeHigh]
-        break
-      }
-      case "month": {
-        // change to next month
-        const currentMonth = dates.at(currentSlice[0])!
-        const prevMonth = currentMonth.minus({ months: 1 })
-        const [rangeLow, rangeHigh] = findIndexRangeByDateRange(
-          prevMonth.startOf("month"),
-          prevMonth.plus({ months: 1 }),
-          dates
-        )
-        currentSlice = [rangeLow, rangeHigh]
-        break
-      }
-      case "year": {
-        // change to next year
-        const currentYear = dates.at(currentSlice[0])!
-        const prevYear = currentYear.minus({ years: 1 })
-        const [rangeLow, rangeHigh] = findIndexRangeByDateRange(
-          prevYear.startOf("year"),
-          prevYear.plus({ years: 1 }),
-          dates
-        )
+        console.log(`Setting range to ${[rangeLow, rangeHigh]} for previous day`)
+        if (rangeLow === rangeHigh) {
+          console.log("Both indices are equal, means it has no data on that day")
+          currentSliceDate = [prevDay.startOf("day"), prevDay.endOf("day")]
+        } else {
+          currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
+        }
+
         currentSlice = [rangeLow, rangeHigh]
         break
       }
     }
   }
 
-  function handleClickNextSlice() {
+  function handleClickNextSlice(nonEmpty: boolean = false) {
+    console.log(`Handling next slice click with nonEmpty=${nonEmpty}`)
     switch (frequency) {
       case "day": {
         // change to next day
-        const currentDay = dates.at(currentSlice[1])!
-        const nextDay = currentDay.plus({ days: 1 })
+        console.log("Next slice click for day view")
+        let nextDay
+
+        if (nonEmpty) {
+          if (currentSlice[1] < dates.length) {
+            nextDay = dates.at(currentSlice[1] + 1)!
+            console.log(`Next Non empty Day is ${nextDay.toString()}`)
+          } else {
+            console.log("Can't go forward anymore")
+            break
+          }
+        } else {
+          const currentDay = currentSliceDate[1]
+          nextDay = currentDay.plus({ hours: 24 })
+          console.log(`Next Day is ${nextDay.toString()}`)
+        }
+
         const [rangeLow, rangeHigh] = findIndexRangeByDateRange(
           nextDay.startOf("day"),
-          nextDay.plus({ days: 1 }),
+          nextDay.endOf("day"),
           dates
         )
-        currentSlice = [rangeLow, rangeHigh]
-        break
-      }
-      case "week": {
-        // change to next week
-        const currentWeek = dates.at(currentSlice[1])!
-        const nextWeek = currentWeek.plus({ weeks: 1 })
-        const [rangeLow, rangeHigh] = findIndexRangeByDateRange(
-          nextWeek.startOf("week"),
-          nextWeek.plus({ weeks: 1 }),
-          dates
-        )
-        currentSlice = [rangeLow, rangeHigh]
-        break
-      }
-      case "month": {
-        // change to next month
-        const currentMonth = dates.at(currentSlice[1])!
-        const nextMonth = currentMonth.plus({ months: 1 })
-        const [rangeLow, rangeHigh] = findIndexRangeByDateRange(
-          nextMonth.startOf("month"),
-          nextMonth.plus({ months: 1 }),
-          dates
-        )
-        currentSlice = [rangeLow, rangeHigh]
-        break
-      }
-      case "year": {
-        // change to next year
-        const currentYear = dates.at(currentSlice[1])!
-        const nextYear = currentYear.plus({ years: 1 })
-        const [rangeLow, rangeHigh] = findIndexRangeByDateRange(
-          nextYear.startOf("year"),
-          nextYear.plus({ years: 1 }),
-          dates
-        )
+
+        console.log(`Setting range to ${[rangeLow, rangeHigh]} for next day`)
+
+        if (rangeLow === rangeHigh) {
+          console.log("Both indices are equal, means it has no data on that day")
+          currentSliceDate = [nextDay.startOf("day"), nextDay.endOf("day")]
+        } else {
+          currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
+        }
+
         currentSlice = [rangeLow, rangeHigh]
         break
       }
     }
   }
 
-  $inspect(years, frequency, viewType, firstDate, lastDate, currentSlice).with(console.log)
+  $inspect(years, frequency, viewType, firstDate, lastDate, currentSlice, currentSliceDate).with(
+    console.log
+  )
 </script>
 
 {#if playHistory === null}{:else}{/if}
@@ -194,25 +202,18 @@
   <Toolbar bind:frequency bind:viewType {onFrequencyChange} {onViewChange} />
 
   <div class="flex w-full flex-row items-center justify-between">
-    <N3DSButton onclick={handleClickPrevSlice} disabled={currentSlice[0] === 0}>
-      &LeftArrow;
-    </N3DSButton>
+    <N3DSButton onClick={() => handleClickPrevSlice()}>&LeftArrow;</N3DSButton>
     <div>
-      {#if frequency === "day"}
-        {formatDayViewDate(dates.at(currentSlice[0])!)}
-      {:else if frequency === "week"}
-        {formatWeekViewDates(dates.at(currentSlice[0])!, dates.at(currentSlice[1])!)}
-      {:else if frequency === "month"}
-        {formatMonthViewDate(dates.at(currentSlice[0])!)}
-      {:else if frequency === "year"}
-        {formatYearViewDate(dates.at(currentSlice[0])!)}
-      {/if}
+      {currentSliceDisplay}
     </div>
-    <N3DSButton onclick={handleClickNextSlice} disabled={currentSlice[1] === dates.length - 1}>
-      &RightArrow;
-    </N3DSButton>
+    <N3DSButton onClick={() => handleClickNextSlice()}>&RightArrow;</N3DSButton>
   </div>
   {#each playHistory.entries().toArray().slice(currentSlice[0], currentSlice[1]) as [r, entry] (r)}
-    <LogEntryCard playEntry={entry} />
+    <div>
+      <span class="font-mono text-muted-foreground">{r - 1}</span>
+      <LogEntryCard playEntry={entry} />
+    </div>
+  {:else}
+    <div>No Data</div>
   {/each}
 </div>

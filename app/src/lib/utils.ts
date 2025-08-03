@@ -54,8 +54,17 @@ export function findIndexRangeByDateRange(
   end: DateTime<true>,
   dates: DateTime<true>[]
 ): [number, number] {
+  if (end.toSeconds() < dates.at(0)!.toSeconds()) {
+    // if out of range
+    return [0, 0]
+  }
+  if (start.toSeconds() > dates.at(-1)!.toSeconds()) {
+    // if out of range
+    return [dates.length, dates.length]
+  }
+
   const rangeLow = dates.findIndex((d) => d.toSeconds() >= start.toSeconds())
   const rangeHigh = dates.findLastIndex((d) => d.toSeconds() <= end.toSeconds())
 
-  return [rangeLow === -1 ? 0 : rangeLow, rangeHigh === -1 ? dates.length : rangeHigh]
+  return [rangeLow === -1 ? 0 : rangeLow, rangeHigh === -1 ? dates.length : rangeHigh + 1]
 }

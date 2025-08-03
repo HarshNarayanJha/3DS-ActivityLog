@@ -17,13 +17,19 @@
       const contents = await csvFile.text()
       gState.playHistory = await parser.parse(contents)
       console.log(stats)
+      // console.log(
+      //   gState.dates
+      //     .entries()
+      //     .map(([x, v]) => [x, v.toString()])
+      //     .toArray()
+      // )
 
       if (gState.playHistory === null) {
         console.error("Error Parsing PlayHistory")
         csvFile = null
       }
 
-      console.log(`${gState.playHistory.size} Entries parsed`)
+      console.log(`${gState.playHistory.size} Play Entries parsed`)
     } catch (error) {
       console.error(error)
       gState.reset()
@@ -43,8 +49,8 @@
     <ActivityLogViewer
       playHistory={gState.playHistory}
       dates={gState.dates}
-      firstDate={gState.firstDate}
-      lastDate={gState.lastDate}
+      firstDate={gState.firstDate!}
+      lastDate={gState.lastDate!}
       years={gState.years}
     />
   {/if}
