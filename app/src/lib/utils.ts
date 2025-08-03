@@ -33,14 +33,18 @@ export const formatYearViewDate = (date: DateTime) => {
 }
 
 /**
- * Zooms into an index range, in the middle
- * FIXME: has a few bugs with small ranges
- * @param leftIndex The left index
- * @param rightIndex The right index
- * @returns
+ * Zooms into an date range, in the middle
+ * @param leftDate The left date
+ * @param rightDate The right date
+ * @returns The mid-way date
  */
-export function zoomIntoRange(leftIndex: number, rightIndex: number) {
-  return Math.floor((leftIndex + rightIndex) / 2)
+export function zoomIntoDateRange(
+  leftDate: DateTime<true>,
+  rightDate: DateTime<true>
+): DateTime<true> {
+  const mid = DateTime.fromSeconds((leftDate.toSeconds() + rightDate.toSeconds()) / 2)
+  if (!mid.isValid) throw new Error(`Invalid datetime ${mid.invalidReason}`)
+  return mid
 }
 
 /**

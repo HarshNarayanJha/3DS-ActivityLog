@@ -7,7 +7,7 @@
     formatMonthViewDate,
     formatWeekViewDates,
     formatYearViewDate,
-    zoomIntoRange
+    zoomIntoDateRange
   } from "$/lib/utils"
   import { DateTime, type DateTimeUnit } from "luxon"
   import LogEntryCard from "./activitylog/LogEntryCard.svelte"
@@ -63,46 +63,40 @@
   })
 
   function onFrequencyChange(newFreq: FrequencyType) {
-    switch (newFreq) {
-      case "day": {
-        // zoom into the middle of the current range
-        // TODO: decide if by index or by date
-        const middle = zoomIntoRange(currentSlice[0], currentSlice[1])
-        const dayStart = dates.at(middle)!.startOf("day")
-        const dayEnd = dates.at(middle)!.endOf("day")
-        const [rangeLow, rangeHigh] = findIndexRangeByDateRange(dayStart, dayEnd, dates)
-        currentSlice = [rangeLow, rangeHigh]
-        currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
-        break
-      }
-      case "week": {
-        const middle = zoomIntoRange(currentSlice[0], currentSlice[1])
-        const weekStart = dates.at(middle)!.startOf("week", { useLocaleWeeks: true })
-        const weekEnd = dates.at(middle)!.endOf("week", { useLocaleWeeks: true })
-        const [rangeLow, rangeHigh] = findIndexRangeByDateRange(weekStart, weekEnd, dates)
-        currentSlice = [rangeLow, rangeHigh]
-        currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
-        break
-      }
-      case "month": {
-        const middle = zoomIntoRange(currentSlice[0], currentSlice[1])
-        const monthStart = dates.at(middle)!.startOf("month")
-        const monthEnd = dates.at(middle)!.endOf("month")
-        const [rangeLow, rangeHigh] = findIndexRangeByDateRange(monthStart, monthEnd, dates)
-        currentSlice = [rangeLow, rangeHigh]
-        currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
-        break
-      }
-      case "year": {
-        const middle = zoomIntoRange(currentSlice[0], currentSlice[1])
-        const yearStart = dates.at(middle)!.startOf("year", { useLocaleWeeks: true })
-        const yearEnd = dates.at(middle)!.endOf("year")
-        const [rangeLow, rangeHigh] = findIndexRangeByDateRange(yearStart, yearEnd, dates)
-        currentSlice = [rangeLow, rangeHigh]
-        currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
-        break
-      }
-    }
+    const middle = zoomIntoDateRange(currentSliceDate[0], currentSliceDate[1])
+    setCurrentSlice(middle)
+
+    // switch (newFreq) {
+    //   case "day": {
+    //     // zoom into the middle of the current date range
+    //     const middle = zoomIntoDateRange(currentSliceDate[0], currentSliceDate[1])
+    //     setCurrentSlice(middle)
+    //     break
+    //   }
+    //   case "week": {
+    //     const middle = zoomIntoDateRange(currentSliceDate[0], currentSliceDate[1])
+    //     setCurrentSlice(middle)
+    //     break
+    //   }
+    //   case "month": {
+    //     const middle = zoomIntoDateRange(currentSlice[0], currentSlice[1])
+    //     const monthStart = dates.at(middle)!.startOf("month")
+    //     const monthEnd = dates.at(middle)!.endOf("month")
+    //     const [rangeLow, rangeHigh] = findIndexRangeByDateRange(monthStart, monthEnd, dates)
+    //     currentSlice = [rangeLow, rangeHigh]
+    //     currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
+    //     break
+    //   }
+    //   case "year": {
+    //     const middle = zoomIntoDateRange(currentSlice[0], currentSlice[1])
+    //     const yearStart = dates.at(middle)!.startOf("year", { useLocaleWeeks: true })
+    //     const yearEnd = dates.at(middle)!.endOf("year")
+    //     const [rangeLow, rangeHigh] = findIndexRangeByDateRange(yearStart, yearEnd, dates)
+    //     currentSlice = [rangeLow, rangeHigh]
+    //     currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
+    //     break
+    //   }
+    // }
   }
 
   function onViewChange(newView: ListViewType) {}
@@ -151,14 +145,8 @@
 
   function handleClickToday() {
     console.log("Today Clicked")
-    switch (frequency) {
-      case "day": {
-        console.log("Going to today day")
-        const today = DateTime.now().startOf("day")
-        setCurrentSlice(today)
-        break
-      }
-    }
+    const today = DateTime.now()
+    setCurrentSlice(today)
   }
 
   function handleClickPrevSlice(nonEmpty: boolean = false) {
