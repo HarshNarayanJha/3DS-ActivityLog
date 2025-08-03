@@ -38,7 +38,7 @@
   }
 </script>
 
-<div class="grid min-h-[70svh] w-full grid-cols-1 place-content-center gap-4 px-16 py-24">
+<div class="grid min-h-[70svh] w-full grid-cols-1 gap-4 px-16 py-24">
   {#if csvFile === null || gState.playHistory === null}
     <TopScreen />
     <BottomScreen>

@@ -1,4 +1,4 @@
-import { DateTime } from "luxon"
+import { DateTime, Settings } from "luxon"
 
 export const parseTimestamp = (timestamp: number) => {
   const dt = DateTime.fromSeconds(timestamp, { zone: "Asia/Kolkata" })

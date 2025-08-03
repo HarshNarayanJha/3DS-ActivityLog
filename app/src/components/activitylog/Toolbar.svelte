@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { FrequencyChoice, FrequencyType, ListViewChoice, ListViewType } from "$/lib/ui-types"
+  import N3DSButton from "$components/ui/N3DSButton.svelte"
   import { Toolbar } from "bits-ui"
 
   interface Props {
@@ -7,13 +8,15 @@
     viewType: ListViewType
     onFrequencyChange?: (newFreq: FrequencyType) => void
     onViewChange?: (newView: ListViewType) => void
+    onClickToday: () => void
   }
 
   let {
     frequency = $bindable("day"),
     viewType = $bindable("card"),
     onFrequencyChange,
-    onViewChange
+    onViewChange,
+    onClickToday
   }: Props = $props()
 
   const frequencies: FrequencyChoice[] = [
@@ -47,9 +50,9 @@
   }
 </script>
 
-<div class="flex w-full flex-row items-center justify-between">
+<div class="grid w-full grid-cols-3 items-center justify-items-center">
   <Toolbar.Root
-    class="flex h-12 min-w-max items-center justify-center rounded-10px border border-border bg-background-alt px-[4px] py-1 shadow-mini"
+    class="flex h-12 min-w-max items-center justify-center justify-self-start rounded-10px border border-border bg-background-alt px-[4px] py-1 shadow-mini"
   >
     <Toolbar.Group
       bind:value={getFrequency, setFrequency}
@@ -69,8 +72,10 @@
     </Toolbar.Group>
   </Toolbar.Root>
 
+  <N3DSButton onClick={onClickToday}>Today</N3DSButton>
+
   <Toolbar.Root
-    class="flex h-12 min-w-max items-center justify-center rounded-10px border border-border bg-background-alt px-[4px] py-1 shadow-mini"
+    class="flex h-12 min-w-max items-center justify-center justify-self-end rounded-10px border border-border bg-background-alt px-[4px] py-1 shadow-mini"
   >
     <Toolbar.Group
       bind:value={getViewType, setViewType}

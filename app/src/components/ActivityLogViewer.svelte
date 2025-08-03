@@ -9,7 +9,7 @@
     formatYearViewDate,
     zoomIntoRange
   } from "$/lib/utils"
-  import type { DateTime } from "luxon"
+  import { DateTime, type DateTimeUnit } from "luxon"
   import LogEntryCard from "./activitylog/LogEntryCard.svelte"
   import Toolbar from "./activitylog/Toolbar.svelte"
   import N3DSButton from "./ui/N3DSButton.svelte"
@@ -107,6 +107,60 @@
 
   function onViewChange(newView: ListViewType) {}
 
+  function setCurrentSlice(start: DateTime<true>, end?: DateTime<true>) {
+    if (end === undefined) {
+      end = start
+    }
+
+    let unit: DateTimeUnit
+
+    switch (frequency) {
+      case "day":
+        unit = "day"
+        break
+      case "week":
+        unit = "week"
+        break
+      case "month":
+        unit = "month"
+        break
+      case "year":
+        unit = "year"
+        break
+    }
+
+    const [rangeLow, rangeHigh] = findIndexRangeByDateRange(
+      start.startOf(unit, { useLocaleWeeks: true }),
+      end.endOf(unit, { useLocaleWeeks: true }),
+      dates
+    )
+
+    console.log(`Setting range to ${[rangeLow, rangeHigh]} for previous day`)
+    if (rangeLow === rangeHigh) {
+      console.log("Both indices are equal, means it has no data on that day")
+      currentSliceDate = [
+        start.startOf(unit, { useLocaleWeeks: true }),
+        end.endOf(unit, { useLocaleWeeks: true })
+      ]
+    } else {
+      currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
+    }
+
+    currentSlice = [rangeLow, rangeHigh]
+  }
+
+  function handleClickToday() {
+    console.log("Today Clicked")
+    switch (frequency) {
+      case "day": {
+        console.log("Going to today day")
+        const today = DateTime.now().startOf("day")
+        setCurrentSlice(today)
+        break
+      }
+    }
+  }
+
   function handleClickPrevSlice(nonEmpty: boolean = false) {
     console.log(`Handling prev slice click with nonEmpty=${nonEmpty}`)
     switch (frequency) {
@@ -129,20 +183,7 @@
           console.log(`Previous Day is ${prevDay.toString()}`)
         }
 
-        const [rangeLow, rangeHigh] = findIndexRangeByDateRange(
-          prevDay.startOf("day"),
-          prevDay.endOf("day"),
-          dates
-        )
-        console.log(`Setting range to ${[rangeLow, rangeHigh]} for previous day`)
-        if (rangeLow === rangeHigh) {
-          console.log("Both indices are equal, means it has no data on that day")
-          currentSliceDate = [prevDay.startOf("day"), prevDay.endOf("day")]
-        } else {
-          currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
-        }
-
-        currentSlice = [rangeLow, rangeHigh]
+        setCurrentSlice(prevDay)
         break
       }
     }
@@ -170,22 +211,7 @@
           console.log(`Next Day is ${nextDay.toString()}`)
         }
 
-        const [rangeLow, rangeHigh] = findIndexRangeByDateRange(
-          nextDay.startOf("day"),
-          nextDay.endOf("day"),
-          dates
-        )
-
-        console.log(`Setting range to ${[rangeLow, rangeHigh]} for next day`)
-
-        if (rangeLow === rangeHigh) {
-          console.log("Both indices are equal, means it has no data on that day")
-          currentSliceDate = [nextDay.startOf("day"), nextDay.endOf("day")]
-        } else {
-          currentSliceDate = [dates.at(rangeLow)!, dates.at(rangeHigh - 1)!]
-        }
-
-        currentSlice = [rangeLow, rangeHigh]
+        setCurrentSlice(nextDay)
         break
       }
     }
@@ -196,24 +222,35 @@
   )
 </script>
 
-{#if playHistory === null}{:else}{/if}
+{#if playHistory === null}
+  <div>No Play History. Go play some games.</div>
+{:else}
+  <div class="mx-auto h-auto w-full max-w-4xl space-y-8">
+    <Toolbar
+      bind:frequency
+      bind:viewType
+      {onFrequencyChange}
+      {onViewChange}
+      onClickToday={handleClickToday}
+    />
 
-<div class="mx-auto h-auto w-full max-w-4xl space-y-8">
-  <Toolbar bind:frequency bind:viewType {onFrequencyChange} {onViewChange} />
-
-  <div class="flex w-full flex-row items-center justify-between">
-    <N3DSButton onClick={() => handleClickPrevSlice()}>&LeftArrow;</N3DSButton>
-    <div>
-      {currentSliceDisplay}
+    <div class="flex w-full flex-row items-center justify-between">
+      <N3DSButton onClick={() => handleClickPrevSlice()}>&LeftArrow;</N3DSButton>
+      <div>
+        {currentSliceDisplay}
+      </div>
+      <N3DSButton onClick={() => handleClickNextSlice()}>&RightArrow;</N3DSButton>
     </div>
-    <N3DSButton onClick={() => handleClickNextSlice()}>&RightArrow;</N3DSButton>
+    {#each playHistory
+      .entries()
+      .toArray()
+      .slice(currentSlice[0], currentSlice[1]) as [r, entry] (r)}
+      <div>
+        <span class="font-mono text-muted-foreground">{r - 1}</span>
+        <LogEntryCard playEntry={entry} />
+      </div>
+    {:else}
+      <div>No Data</div>
+    {/each}
   </div>
-  {#each playHistory.entries().toArray().slice(currentSlice[0], currentSlice[1]) as [r, entry] (r)}
-    <div>
-      <span class="font-mono text-muted-foreground">{r - 1}</span>
-      <LogEntryCard playEntry={entry} />
-    </div>
-  {:else}
-    <div>No Data</div>
-  {/each}
-</div>
+{/if}
