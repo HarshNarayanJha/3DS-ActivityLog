@@ -54,7 +54,7 @@
       case "day":
         return formatDayViewDate(currentSliceDate[0])
       case "week":
-        return formatWeekViewDates(currentSliceDate[0], currentSliceDate[1])
+        return formatWeekViewDates(currentSliceDate[0])
       case "month":
         return formatMonthViewDate(currentSliceDate[0])
       case "year":

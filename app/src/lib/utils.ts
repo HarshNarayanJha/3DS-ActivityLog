@@ -1,34 +1,64 @@
-import { DateTime, Settings } from "luxon"
+import { DateTime } from "luxon"
 
+/**
+ *
+ * @param timestamp UNIX timestamp in seconds
+ * @returns A parsed DateTime object in Asia/Kolkata tz, if valid. Have to make tz user configurable
+ */
 export const parseTimestamp = (timestamp: number) => {
   const dt = DateTime.fromSeconds(timestamp, { zone: "Asia/Kolkata" })
   if (!dt.isValid) throw new Error(`Invalid datetime: ${dt.invalidReason}`)
   return dt
 }
 
+/**
+ *
+ * @param timestamp UNIX timestamp in seconds
+ * @returns DateTime formatted in locale string with DATETIME_MED_WITH_WEEKDAY
+ */
 export const formatTimestamp = (timestamp: number) => {
   return parseTimestamp(timestamp).toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY)
 }
 
-export const formatDayViewDate = (date: DateTime) => {
+/**
+ *
+ * @param date DateTime object to format
+ * @returns A day level formatted locale string with DATE_MED_WITH_WEEKDAY
+ */
+export const formatDayViewDate = (date: DateTime<true>) => {
   return date.startOf("day").toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
 }
 
-export const formatWeekViewDates = (date0: DateTime, date1: DateTime) => {
-  const start = date0
+/**
+ *
+ * @param date DateTime object to format
+ * @returns A week level formatted locale string with DATE_MED_WITH_WEEKDAY
+ */
+export const formatWeekViewDates = (date: DateTime<true>) => {
+  const start = date
     .startOf("week", { useLocaleWeeks: true })
     .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
-  const end = date1
+  const end = date
     .endOf("week", { useLocaleWeeks: true })
     .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
   return `${start} - ${end}`
 }
 
-export const formatMonthViewDate = (date: DateTime) => {
+/**
+ *
+ * @param date DateTime object to format
+ * @returns A month level formatted locale string with month and year
+ */
+export const formatMonthViewDate = (date: DateTime<true>) => {
   return `${date.startOf("month").toLocaleString({ month: "long", year: "numeric" })}`
 }
 
-export const formatYearViewDate = (date: DateTime) => {
+/**
+ *
+ * @param date DateTime object to format
+ * @returns A year level formatted locale string with year
+ */
+export const formatYearViewDate = (date: DateTime<true>) => {
   return `${date.startOf("year").toLocaleString({ year: "numeric" })}`
 }
 
