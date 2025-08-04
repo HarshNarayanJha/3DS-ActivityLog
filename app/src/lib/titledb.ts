@@ -9,187 +9,231 @@ export const SYSTEM_EVENT_TID = "FFFFFFFFFFFFFFFF"
 export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
   "00021000": {
     tid: "0004001000021000",
+    uid: "",
     titleName: "System Settings",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HAS?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/settings.png"
   },
   "00021100": {
     tid: "0004001000021100",
+    uid: "",
     titleName: "Download Play",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HDL?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/download_play.png"
   },
   "00021200": {
     tid: "0004001000021200",
+    uid: "",
     titleName: "Activity Log",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HMK?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/activity_log.png"
   },
   "00021300": {
     tid: "0004001000021300",
+    uid: "",
     titleName: "Health and Safety Information",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/hns_info.png"
   },
   "20021300": {
     tid: "0004001020021300",
+    uid: "",
     titleName: "New 3DS Health and Safety Information",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HAC?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/hns_info.png"
   },
   "00021400": {
     tid: "0004001000021400",
+    uid: "",
     titleName: "Nintendo 3DS Camera",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HEP?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/camera.png"
   },
   "00021500": {
     tid: "0004001000021500",
+    uid: "",
     titleName: "Nintendo 3DS Sound",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HES?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/sound.png"
   },
   "00021700": {
     tid: "0004001000021700",
+    uid: "",
     titleName: "Mii Maker",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HED?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/mii_maker.png"
   },
   "00021800": {
     tid: "0004001000021800",
+    uid: "",
     titleName: "StreetPass Mii Plaza",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HME?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/mii_plaza.png"
   },
   "00021900": {
     tid: "0004001000021900",
+    uid: "",
     titleName: "eShop",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HGR?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/eshop.png"
   },
   "00021A00": {
     tid: "0004001000021A00",
+    uid: "",
     titleName: "System Transfer",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HCB?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/system_transfer.png"
   },
   "00021B00": {
     tid: "0004001000021B00",
+    uid: "",
     titleName: "Nintendo Zone",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HMA?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/nintendo_zone.png"
   },
   "00021D00": {
     tid: "0004001000021D00",
+    uid: "",
     titleName: "Face Raiders",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HCH?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/face_raiders.png"
   },
   "20021D00": {
     tid: "0004001020021D00",
+    uid: "",
     titleName: "New 3DS Face Raiders",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/face_raiders.png"
   },
   "00021E00": {
     tid: "0004001000021E00",
+    uid: "",
     titleName: "AR Games",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HAR?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/ar_games.png"
   },
   "00021F00": {
     tid: "0004001000021F00",
+    uid: "",
     titleName: "SAFE_MODE System Updater",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HSH?",
     trimmedSizeBytes: 123
   },
   "00024000": {
     tid: "0004001000024000",
+    uid: "",
     titleName: "Promotional Video",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "(Variable)?",
     trimmedSizeBytes: 123
   },
   "0002C000": {
     tid: "000400100002C000",
+    uid: "",
     titleName: "Nintendo Network ID Settings",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HAF?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/nnid_seetings.png"
   },
   "20024100": {
     tid: "0004001020024100",
+    uid: "",
     titleName: "microSD Management",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-N-HAJ?",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/microsd_management.png"
   },
   "2002CF00": {
     tid: "000400102002CF00",
+    uid: "",
     titleName: "New 3DS Home Menu Digital Manual",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-P-CTAP",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/digital_manual.png"
   },
   "2002D100": {
     tid: "000400102002D100",
+    uid: "",
     titleName: "New 3DS Friends List Digital Manual",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-P-CTAP",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/digital_manual.png"
   },
   "2002D300": {
     tid: "000400102002D300",
+    uid: "",
     titleName: "New 3DS Notifications Digital Manual",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-P-CTAP",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/digital_manual.png"
   },
   "2002D500": {
     tid: "000400102002D500",
+    uid: "",
     titleName: "New 3DS Game Notes Digital Manual",
     publisher: "Nintendo",
-    region: "USA",
+    region: "North America",
     serial: "CTR-P-CTAP",
-    trimmedSizeBytes: 123
+    trimmedSizeBytes: 123,
+    iconUrl: "/icons/digital_manual.png"
   }
 }
 

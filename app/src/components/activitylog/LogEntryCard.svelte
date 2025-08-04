@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { SYSTEM_APPLICATIONS_TIDHIGH } from "$/lib/titledb"
   import { EntryType, type PlayEntry, PlayEvent, SystemEvent } from "$/lib/types"
   import { formatTimestamp } from "$/lib/utils"
 
@@ -46,7 +47,12 @@
           src={`https://art.gametdb.com/3ds/box/US/${title!.serial.split("-")[2]}.png?1451868970`}
           alt=""
         /> -->
-        <img src={`https://api.ghseshop.cc/${title!.tid}/icon`} alt="" />
+        {#if title!.tid.startsWith(SYSTEM_APPLICATIONS_TIDHIGH)}
+          <img src={title?.iconUrl} alt="" />
+        {:else}
+          <img src={`https://api.ghseshop.cc/${title!.tid}/icon`} alt="" />
+        {/if}
+
         <div>
           <h3 class="mb-0 font-bold">{title!.titleName}</h3>
           <p class="mt-0 mb-0 text-sm">{title!.publisher}</p>
