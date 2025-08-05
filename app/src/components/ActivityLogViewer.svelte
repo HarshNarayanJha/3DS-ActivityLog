@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { PlayHistory } from "$/lib/types"
+  import { EntryType, type PlayHistory } from "$/lib/types"
   import type { FrequencyType, ListViewType } from "$/lib/ui-types"
   import {
     findIndexRangeByDateRange,
@@ -13,6 +13,8 @@
   import LogEntryCard from "./activitylog/LogEntryCard.svelte"
   import Toolbar from "./activitylog/Toolbar.svelte"
   import N3DSButton from "./ui/N3DSButton.svelte"
+  import ActivityCard from "./activitylog/ActivityCard.svelte"
+  import RangedCardsList from "./activitylog/RangedCardsList.svelte"
 
   interface Props {
     playHistory: PlayHistory
@@ -329,16 +331,25 @@
       </div>
       <N3DSButton onClick={() => handleClickNextSlice()}>&RightArrow;</N3DSButton>
     </div>
-    {#each playHistory
-      .entries()
-      .toArray()
-      .slice(currentSlice[0], currentSlice[1]) as [r, entry] (r)}
-      <div>
-        <span class="font-mono text-muted-foreground">{r - 1}</span>
-        <LogEntryCard playEntry={entry} />
-      </div>
-    {:else}
-      <div>No Data</div>
-    {/each}
+    {#if viewType === "card"}
+      {@const entries = playHistory
+        .entries()
+        .toArray()
+        .slice(currentSlice[0], currentSlice[1])
+        .filter(([r, entry]) => entry.entryType === EntryType.APPLICATION)}
+      <RangedCardsList {entries} rangeHash={`${currentSlice[0]}-${currentSlice[1]}`} />
+    {:else if viewType === "timeline"}
+      {#each playHistory
+        .entries()
+        .toArray()
+        .slice(currentSlice[0], currentSlice[1]) as [r, entry] (r)}
+        <div>
+          <span class="font-mono text-muted-foreground">{r - 1}</span>
+          <LogEntryCard playEntry={entry} />
+        </div>
+      {:else}
+        <div>No Data</div>
+      {/each}
+    {/if}
   </div>
 {/if}

@@ -67,4 +67,13 @@ export interface PlayEntry {
   timestamp: number
 }
 
+/**
+ * Used for the 3DS Cards Activity View
+ */
+export interface TitleInfo {
+  key: string
+  title: TitleData
+  playTime: number
+}
+
 export type PlayHistory = Map<number, PlayEntry>
