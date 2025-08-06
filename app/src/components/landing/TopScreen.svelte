@@ -32,10 +32,11 @@
       </div>
       <div
         id="top-screen-area"
-        class="mx-auto flex h-auto w-3/4 flex-col gap-4 place-self-center justify-self-center rounded-md bg-neutral-100 px-4 py-8 text-center shadow-xl"
+        class="mx-auto flex h-auto w-3/4 flex-col gap-4 place-self-center justify-self-center"
       >
         <div class="flex items-center justify-center gap-2">
-          <h3 class="text-4xl font-bold text-emerald-400">Activity Log</h3>
+          <!-- <h3 class="text-4xl font-bold text-emerald-400">Activity Log</h3> -->
+          <img src="/icons/Activity_Log_Logo.svg" alt="" class="w-max h-auto drop-shadow-xl" />
         </div>
       </div>
       <div

@@ -76,3 +76,9 @@ https://www.gamebrew.org/wiki/List_of_3DS_homebrew_applications
 
 Has it all, but no title ids
 https://www.gametdb.com/3DS/List
+
+Some Icons
+https://www.spriters-resource.com/3ds/systembios/
+
+Icons
+https://miiwiki.org/wiki/Nintendo_3DS

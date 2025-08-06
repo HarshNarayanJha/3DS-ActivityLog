@@ -1,29 +1,52 @@
 <script lang="ts">
+  import TitleIcon from "$components/activitylog/TitleIcon.svelte"
   import type { Snippet } from "svelte"
 
   interface Props {
     children?: Snippet<[]>
   }
   let { children }: Props = $props()
+
+  const icons = [
+    { path: "/icons/game_notes.png" },
+    { path: "/icons/browser.png" },
+    { path: "/icons/notifications.png" },
+    { path: "/icons/friends.png" },
+    { path: "/icons/Miiverse_3DS_Icon.svg" }
+  ]
 </script>
 
 <div
   class="mx-auto aspect-[16/9] h-auto w-full max-w-[40rem] rounded-xl bg-gray-400 p-3"
   id="bottom-screen"
 >
-  <div class="mx-auto aspect-[16/9] h-auto w-full bg-gray-50">
+  <div class="mx-auto aspect-[16/9] h-auto w-full bg-gray-100">
     <div class="grid-row-3 grid h-full w-full grid-cols-1">
       <div
         id="bottom-screen-header"
         class="flex h-8 w-full flex-row items-center justify-between gap-2 place-self-start text-black"
       >
-        <div class="h-full rounded-br-3xl bg-yellow-500 px-4 py-1">L Y</div>
-        <div class="h-full rounded-bl-3xl bg-yellow-500 px-4 py-1">R Y</div>
+        <div
+          class="h-full rounded-br-lg border-2 border-s-0 border-t-0 border-white bg-gray-300 px-4 py-1 shadow-sm"
+        >
+          L Y
+        </div>
+        <div class="flex flex-1 flex-row items-center justify-evenly gap-2">
+          {#each icons as ic (ic.path)}
+            <img src={ic.path} alt="" />
+          {/each}
+        </div>
+        <div
+          class="h-full rounded-bl-lg border-2 border-e-0 border-t-0 border-white bg-gray-300 px-4 py-1 shadow-sm"
+        >
+          R | Y
+        </div>
       </div>
       <div
         id="bottom-screen-area"
         class="mx-auto h-auto w-3/4 place-self-center justify-self-center"
       >
+        <TitleIcon class="mx-auto mb-4 w-max" src="/icons/activity_log.png" alt="Activity Log" />
         {@render children?.()}
       </div>
       <div

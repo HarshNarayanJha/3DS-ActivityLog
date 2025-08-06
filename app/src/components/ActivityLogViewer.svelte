@@ -13,7 +13,6 @@
   import LogEntryCard from "./activitylog/LogEntryCard.svelte"
   import Toolbar from "./activitylog/Toolbar.svelte"
   import N3DSButton from "./ui/N3DSButton.svelte"
-  import ActivityCard from "./activitylog/ActivityCard.svelte"
   import RangedCardsList from "./activitylog/RangedCardsList.svelte"
 
   interface Props {

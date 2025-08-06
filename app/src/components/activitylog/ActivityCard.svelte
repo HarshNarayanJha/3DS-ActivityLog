@@ -2,6 +2,7 @@
   import { SYSTEM_APPLICATIONS_TIDHIGH } from "$/lib/titledb"
   import { type TitleInfo } from "$/lib/types"
   import { Duration } from "luxon"
+  import TitleIcon from "./TitleIcon.svelte"
 
   interface Props {
     titleInfo: TitleInfo
@@ -18,15 +19,17 @@
   class="mx-auto prose h-auto w-full rounded-xl p-4 shadow-xl dark:prose-invert"
   data-tid={title.tid.toUpperCase()}
 >
-  <div class="flex flex-row items-center gap-2">
+  <div class="flex flex-row items-center justify-start gap-3">
     <!-- <img
         src={`https://art.gametdb.com/3ds/box/US/${title!.serial.split("-")[2]}.png?1451868970`}
         alt=""
       /> -->
     {#if title.tid.startsWith(SYSTEM_APPLICATIONS_TIDHIGH)}
-      <img src={title.iconUrl} alt="" />
+      <TitleIcon src={title.iconUrl ?? ""} alt="" class="not-prose" />
+      <!-- <img src={title.iconUrl} alt="" /> -->
     {:else}
-      <img src={`https://api.ghseshop.cc/${title.tid}/icon`} alt="" />
+      <TitleIcon src={`https://api.ghseshop.cc/${title.tid}/icon`} alt="" class="not-prose" />
+      <!-- <img src={`https://api.ghseshop.cc/${title.tid}/icon`} alt="" /> -->
     {/if}
 
     <div>
