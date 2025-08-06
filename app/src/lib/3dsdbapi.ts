@@ -1,15 +1,18 @@
 import type { Region, TitleData } from "./types"
 import rawTitleDB from "./final_local_title_list.json"
 import rawFallbackDB from "./final_fallback_title_list.json"
+import rawHBDB from "./final_hb_title_list.json"
 
 const titleDB: Record<string, any> = rawTitleDB as Record<string, any>
 const fallbackDB: Record<string, any> = rawFallbackDB as Record<string, any>
+const hbDB: Record<string, any> = rawHBDB as Record<string, any>
 
 const cache = new Map<string, any>()
 
 export const stats = {
   cache: new Set(),
   local: new Set(),
+  hb: new Set(),
   notFound: new Set()
 }
 
@@ -19,6 +22,13 @@ export const getTitle = async (tid: string): Promise<TitleData> => {
     // console.log(`Cache hit`)
     stats.cache.add(`${tid}: ${cache.get(tid).titleName}`)
     return cache.get(tid)
+  }
+
+  const hbData = findTitleInHBDB(tid)
+  if (hbData !== null) {
+    stats.hb.add(`${tid}: ${hbData.titleName}`)
+    cache.set(tid, hbData)
+    return hbData
   }
 
   const gameData = findTitleInLocalDB(tid)
@@ -36,13 +46,6 @@ export const getTitle = async (tid: string): Promise<TitleData> => {
   }
 
   stats.notFound.add(`${tid}: Unknown`)
-
-  // check hbdb
-  // const hbData = findTitleInHbDB(tid)
-  // if (hbData !== null) {
-  //   cache.set(tid, hbData)
-  //   return hbData
-  // }
 
   // check remote title db
   // console.log(`Calling API`)
@@ -165,19 +168,20 @@ const findTitleInFallbackDB = (tid: string): TitleData | null => {
   return null
 }
 
-// const findTitleInHbDB = (tid: string): TitleData | null => {
-//   if (tid in hbDB) {
-//     // console.log("Found in hb db")
-//     const rawData = hbDB[tid]
-//     return {
-//       tid,
-//       titleName: rawData.name,
-//       serial: "",
-//       region: parseRegion("Region Free"),
-//       publisher: rawData.author,
-//       trimmedSizeBytes: 1234
-//     }
-//   }
+const findTitleInHBDB = (tid: string): TitleData | null => {
+  if (tid in hbDB) {
+    // console.log("Found in hb db")
+    const rawData = hbDB[tid]
+    return {
+      tid: rawData.tid,
+      uid: rawData.uid,
+      titleName: rawData.name,
+      serial: rawData.serial,
+      region: parseRegion("Region Free"),
+      publisher: rawData.source,
+      trimmedSizeBytes: 0
+    }
+  }
 
-//   return null
-// }
+  return null
+}
