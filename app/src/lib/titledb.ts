@@ -1,3 +1,4 @@
+import { base, resolve } from "$app/paths"
 import type { AppletData, TitleData } from "./types"
 
 export const SYSTEM_APPLICATIONS_TIDHIGH = "00040010"
@@ -15,7 +16,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HAS?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/settings.png"
+    iconUrl: `${base}/icons/settings.png`
   },
   "00021100": {
     tid: "0004001000021100",
@@ -25,7 +26,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HDL?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/download_play.png"
+    iconUrl: `${base}/icons/download_play.png`
   },
   "00021200": {
     tid: "0004001000021200",
@@ -35,7 +36,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HMK?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/activity_log.png"
+    iconUrl: `${base}/icons/activity_log.png`
   },
   "00021300": {
     tid: "0004001000021300",
@@ -45,7 +46,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/hns_info.png"
+    iconUrl: `${base}/icons/hns_info.png`
   },
   "20021300": {
     tid: "0004001020021300",
@@ -55,7 +56,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HAC?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/hns_info.png"
+    iconUrl: `${base}/icons/hns_info.png`
   },
   "00021400": {
     tid: "0004001000021400",
@@ -65,7 +66,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HEP?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/camera.png"
+    iconUrl: `${base}/icons/camera.png`
   },
   "00021500": {
     tid: "0004001000021500",
@@ -75,7 +76,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HES?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/sound.png"
+    iconUrl: `${base}/icons/sound.png`
   },
   "00021700": {
     tid: "0004001000021700",
@@ -85,7 +86,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HED?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/mii_maker.png"
+    iconUrl: `${base}/icons/mii_maker.png`
   },
   "00021800": {
     tid: "0004001000021800",
@@ -95,7 +96,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HME?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/mii_plaza.png"
+    iconUrl: `${base}/icons/mii_plaza.png`
   },
   "00021900": {
     tid: "0004001000021900",
@@ -105,7 +106,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HGR?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/eshop.png"
+    iconUrl: `${base}/icons/eshop.png`
   },
   "00021A00": {
     tid: "0004001000021A00",
@@ -115,7 +116,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HCB?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/system_transfer.png"
+    iconUrl: `${base}/icons/system_transfer.png`
   },
   "00021B00": {
     tid: "0004001000021B00",
@@ -125,7 +126,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HMA?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/nintendo_zone.png"
+    iconUrl: `${base}/icons/nintendo_zone.png`
   },
   "00021D00": {
     tid: "0004001000021D00",
@@ -135,7 +136,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HCH?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/face_raiders.png"
+    iconUrl: `${base}/icons/face_raiders.png`
   },
   "20021D00": {
     tid: "0004001020021D00",
@@ -145,7 +146,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/face_raiders.png"
+    iconUrl: `${base}/icons/face_raiders.png`
   },
   "00021E00": {
     tid: "0004001000021E00",
@@ -155,7 +156,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HAR?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/ar_games.png"
+    iconUrl: `${base}/icons/ar_games.png`
   },
   "00021F00": {
     tid: "0004001000021F00",
@@ -183,7 +184,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HAF?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/nnid_seetings.png"
+    iconUrl: `${base}/icons/nnid_seetings.png`
   },
   "20024100": {
     tid: "0004001020024100",
@@ -193,7 +194,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-N-HAJ?",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/microsd_management.png"
+    iconUrl: `${base}/icons/microsd_management.png`
   },
   "2002CF00": {
     tid: "000400102002CF00",
@@ -203,7 +204,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-P-CTAP",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/digital_manual.png"
+    iconUrl: `${base}/icons/digital_manual.png`
   },
   "2002D100": {
     tid: "000400102002D100",
@@ -213,7 +214,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-P-CTAP",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/digital_manual.png"
+    iconUrl: `${base}/icons/digital_manual.png`
   },
   "2002D300": {
     tid: "000400102002D300",
@@ -223,7 +224,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-P-CTAP",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/digital_manual.png"
+    iconUrl: `${base}/icons/digital_manual.png`
   },
   "2002D500": {
     tid: "000400102002D500",
@@ -233,7 +234,7 @@ export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
     region: "North America",
     serial: "CTR-P-CTAP",
     trimmedSizeBytes: 123,
-    iconUrl: "/icons/digital_manual.png"
+    iconUrl: `${base}/icons/digital_manual.png`
   }
 }
 

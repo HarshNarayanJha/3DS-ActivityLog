@@ -1,3 +1,7 @@
+<script>
+  import { base } from "$app/paths"
+</script>
+
 <div
   class="mx-auto aspect-[16/9] h-auto w-full max-w-[50rem] rounded-xl bg-gray-400 p-3"
   id="top-screen"
@@ -36,7 +40,11 @@
       >
         <div class="flex items-center justify-center gap-2">
           <!-- <h3 class="text-4xl font-bold text-emerald-400">Activity Log</h3> -->
-          <img src="/icons/Activity_Log_Logo.svg" alt="" class="w-max h-auto drop-shadow-xl" />
+          <img
+            src={`${base}/icons/Activity_Log_Logo.svg`}
+            alt=""
+            class="h-auto w-max drop-shadow-xl"
+          />
         </div>
       </div>
       <div

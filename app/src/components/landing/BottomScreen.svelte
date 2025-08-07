@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { base } from "$app/paths"
   import TitleIcon from "$components/activitylog/TitleIcon.svelte"
   import type { Snippet } from "svelte"
 
@@ -8,11 +9,11 @@
   let { children }: Props = $props()
 
   const icons = [
-    { path: "/icons/game_notes.png" },
-    { path: "/icons/browser.png" },
-    { path: "/icons/notifications.png" },
-    { path: "/icons/friends.png" },
-    { path: "/icons/Miiverse_3DS_Icon.svg" }
+    { path: `${base}/icons/game_notes.png` },
+    { path: `${base}/icons/browser.png` },
+    { path: `${base}/icons/notifications.png` },
+    { path: `${base}/icons/friends.png` },
+    { path: `${base}/icons/Miiverse_3DS_Icon.svg` }
   ]
 </script>
 
@@ -46,7 +47,11 @@
         id="bottom-screen-area"
         class="mx-auto h-auto w-3/4 place-self-center justify-self-center"
       >
-        <TitleIcon class="mx-auto mb-4 w-max" src="/icons/activity_log.png" alt="Activity Log" />
+        <TitleIcon
+          class="mx-auto mb-4 w-max"
+          src={`${base}/icons/activity_log.png`}
+          alt="Activity Log"
+        />
         {@render children?.()}
       </div>
       <div
