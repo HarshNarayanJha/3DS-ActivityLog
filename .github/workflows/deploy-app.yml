@@ -1,0 +1,66 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.19
+
+      - name: Install dependencies
+        run: |
+          cd app
+          bun install
+
+      - name: Setup Pages
+        id: setup-pages
+        uses: actions/configure-pages@v5
+        with:
+          static_site_generator: sveltekit
+
+      - name: Build
+        run: |
+          cd app
+          bun run build
+        env:
+          BASE_PATH: ${{ steps.setup-pages.outputs.base_path }}
+
+      - name: Upload Artifacts
+        id: deployment
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "app/build/"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
