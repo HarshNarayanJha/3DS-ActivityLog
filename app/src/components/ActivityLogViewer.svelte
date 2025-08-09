@@ -14,6 +14,7 @@
   import Toolbar from "./activitylog/Toolbar.svelte"
   import N3DSButton from "./ui/N3DSButton.svelte"
   import RangedCardsList from "./activitylog/RangedCardsList.svelte"
+  import TimelineList from "./activitylog/TimelineList.svelte"
 
   interface Props {
     playHistory: PlayHistory
@@ -338,17 +339,8 @@
         .filter(([r, entry]) => entry.entryType === EntryType.APPLICATION)}
       <RangedCardsList {entries} rangeHash={`${currentSlice[0]}-${currentSlice[1]}`} />
     {:else if viewType === "timeline"}
-      {#each playHistory
-        .entries()
-        .toArray()
-        .slice(currentSlice[0], currentSlice[1]) as [r, entry] (r)}
-        <div>
-          <span class="font-mono text-muted-foreground">{r - 1}</span>
-          <LogEntryCard playEntry={entry} />
-        </div>
-      {:else}
-        <div>No Data</div>
-      {/each}
+      {@const entries = playHistory.entries().toArray().slice(currentSlice[0], currentSlice[1])}
+      <TimelineList {entries} rangeHash={`${currentSlice[0]}-${currentSlice[1]}`} />
     {/if}
   </div>
 {/if}

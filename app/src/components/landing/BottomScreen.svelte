@@ -34,7 +34,7 @@
         </div>
         <div class="flex flex-1 flex-row items-center justify-evenly gap-2">
           {#each icons as ic (ic.path)}
-            <img src={ic.path} alt="" />
+            <img src={ic.path} alt="" width="32" height="32" class="h-8 w-8" />
           {/each}
         </div>
         <div

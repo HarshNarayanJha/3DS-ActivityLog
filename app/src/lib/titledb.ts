@@ -6,6 +6,8 @@ export const SYSTEM_APPLETS_TIDHIGH = "00040030"
 export const APPLICATIONS_TIDHIGH = "00040000"
 export const SYSTEM_EVENT_TID = "FFFFFFFFFFFFFFFF"
 
+export const HOME_MENU_TID = "0004003000008F02"
+
 // Map of tidlow: TitleData
 export const SYSTEM_APPLICATIONS: Record<string, TitleData> = {
   "00021000": {
