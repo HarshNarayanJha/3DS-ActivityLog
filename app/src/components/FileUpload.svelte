@@ -24,7 +24,7 @@
     accept=".csv"
     multiple={false}
     disableDefaultStyles
-    containerClasses="transition-[border] flex flex-1 flex-col items-center rounded-sm border-2 border-dashed border-gray-300 bg-gray-100 p-12 text-gray-500 outline-0 hover:border-blue-400 focus:border-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-blue-500 dark:focus:border-blue-400"
+    containerClasses="text-center transition-[border] flex flex-1 flex-col items-center rounded-sm border-2 border-dashed border-gray-300 bg-gray-100 p-12 text-gray-500 outline-0 hover:border-blue-400 focus:border-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-blue-500 dark:focus:border-blue-400"
   >
     {#if file === null}
       <b> Drag or upload your PlayHistory.csv file </b>

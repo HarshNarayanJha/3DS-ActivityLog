@@ -1,20 +1,45 @@
-<script>
+<script lang="ts">
   import { base } from "$app/paths"
+
+  let networkMode = $state<"streetpass" | "enabled" | "internet">("enabled")
+
+  let networkModeClass = $derived.by(() => {
+    switch (networkMode) {
+      case "enabled":
+        return "bg-gradient-to-b from-gray-200 to-gray-100 text-gray-600 border-2 border-white"
+      case "streetpass":
+        return "bg-green-500 text-white"
+      case "internet":
+        return "bg-blue-500 text-white"
+    }
+  })
+
+  let networkModeText = $derived.by(() => {
+    switch (networkMode) {
+      case "enabled":
+        return "Enabled"
+      case "streetpass":
+        return "StreetPass"
+      case "internet":
+        return "Internet"
+    }
+  })
 </script>
 
 <div
-  class="mx-auto aspect-[16/9] h-auto w-full max-w-[50rem] rounded-xl bg-gray-400 p-3"
+  class="mx-auto aspect-[1.63] h-auto w-full max-w-[648px] rounded-xl bg-gray-400 p-3"
   id="top-screen"
 >
-  <div class="mx-auto aspect-[16/9] h-auto w-full bg-gray-50">
+  <div class="mx-auto aspect-[1.63] h-auto w-full bg-gray-50">
     <div class="grid-row-3 grid h-full w-full grid-cols-1">
       <div
         id="top-screen-statusbar"
-        class="flex h-8 w-full flex-row items-center justify-between gap-4 place-self-start px-4 py-2 text-black"
+        class="flex h-8 w-full flex-row items-center justify-between gap-4 place-self-start px-4 py-2 text-lg text-black"
       >
         <div class="flex flex-row items-center gap-4">
-          <button class="rounded-md bg-green-500 px-4 py-0 font-medium text-white" type="button">
-            StreetPass
+          <div></div>
+          <button class={["rounded-md px-10 py-0 font-medium", networkModeClass]} type="button">
+            {networkModeText}
           </button>
           <p class="font-medium">0</p>
           <div class="flex items-center gap-1">
@@ -44,20 +69,21 @@
             src={`${base}/icons/Activity_Log_Logo.svg`}
             alt=""
             class="h-auto w-max drop-shadow-xl"
+            width="468"
           />
         </div>
       </div>
       <div
         id="top-screen-footer"
-        class="flex h-10 w-full flex-row items-center justify-between place-self-end text-black"
+        class="flex h-10 w-full flex-row items-end justify-between place-self-end text-sm text-black"
       >
-        <div class="flex items-center gap-2">
-          <div class="rounded-tr-3xl bg-yellow-500 px-4 py-1 pt-3">L</div>
-          <div class="h-6 w-6 rounded-full border-2 border-black"></div>
+        <div class="flex flex-row items-center gap-2 rounded-tr-3xl bg-gray-200 px-4 py-1">
+          <div class="h-6 w-6 rounded-full border-2 border-black text-center align-middle">Y</div>
         </div>
-        <div class="flex items-center gap-2">
-          <div class="h-6 w-6 rounded-full border-2 border-black"></div>
-          <div class="rounded-tl-3xl bg-yellow-500 px-4 py-1 pt-3">R</div>
+        <div class="flex flex-row items-center gap-2 rounded-tl-3xl bg-gray-200 px-4 py-1">
+          <div class="h-6 w-6 rounded-sm border-2 border-black text-center align-middle">L</div>
+          +
+          <div class="h-6 w-6 rounded-sm border-2 border-black text-center align-middle">R</div>
         </div>
       </div>
     </div>
