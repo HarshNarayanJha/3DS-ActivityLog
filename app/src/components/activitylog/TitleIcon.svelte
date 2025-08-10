@@ -12,18 +12,18 @@
 
 <div
   class={[
-    "h-fit w-fit rounded-lg p-0.25",
+    "aspect-square h-fit w-fit rounded-xl p-0.25",
     "bg-gradient-to-b from-[#ffffffae] to-gray-400",
     className
   ]}
 >
-  <div class={["rounded-lg p-2.5", "shadow-md/50 shadow-gray-600", "icon-gradient"]}>
+  <div class={["rounded-xl p-2.5", "shadow-md/50 shadow-gray-600", "icon-gradient"]}>
     <img
       {src}
       {alt}
       width="50"
       height="50"
-      class="h-[50px] w-[50px] rounded-sm border border-white"
+      class="aspect-square h-[50px] min-h-[50px] w-[50px] min-w-[50px] rounded-sm border border-white"
     />
   </div>
 </div>

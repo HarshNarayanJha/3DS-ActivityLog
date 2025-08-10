@@ -1,16 +1,16 @@
 <script lang="ts">
-  import { base } from "$app/paths"
+  import { asset, base, resolve } from "$app/paths"
 
   let networkMode = $state<"streetpass" | "enabled" | "internet">("enabled")
 
   let networkModeClass = $derived.by(() => {
     switch (networkMode) {
       case "enabled":
-        return "bg-gradient-to-b from-gray-200 to-gray-100 text-gray-600 border-2 border-white"
+        return "bg-gradient-to-b from-gray-300 to-gray-200 text-gray-600 border-2 border-white"
       case "streetpass":
-        return "bg-green-500 text-white"
+        return "bg-gradient-to-b from-green-500 to-green-400 text-white border-2 border-white"
       case "internet":
-        return "bg-blue-500 text-white"
+        return "bg-gradient-to-b from-sky-500 to-sky-400 text-white border-2 border-white"
     }
   })
 
@@ -23,6 +23,25 @@
       case "internet":
         return "Internet"
     }
+  })
+
+  function changeNetworkMode() {
+    const chance = Math.random()
+    if (chance > 2 / 3) {
+      networkMode = "internet"
+    } else if (chance > 1 / 3) {
+      networkMode = "streetpass"
+    } else {
+      networkMode = "enabled"
+    }
+  }
+
+  let networkInterval: number | null = null
+
+  $effect(() => {
+    networkInterval = setInterval(() => changeNetworkMode(), 3000)
+
+    return () => clearInterval(networkInterval!)
   })
 </script>
 
@@ -38,7 +57,7 @@
       >
         <div class="flex flex-row items-center gap-4">
           <div></div>
-          <button class={["rounded-md px-10 py-0 font-medium", networkModeClass]} type="button">
+          <button class={["w-40 rounded-lg px-4 py-0 font-medium", networkModeClass]} type="button">
             {networkModeText}
           </button>
           <p class="font-medium">0</p>
@@ -49,8 +68,17 @@
           </div>
         </div>
         <div class="flex flex-row items-center gap-4">
-          <p class="font-medium">7/30 (Wed)</p>
-          <p class="font-medium">9:15</p>
+          <p class="font-medium">
+            <span> 7 </span>
+            <span> / </span>
+            <span> 30 </span>
+            <span> (Wed) </span>
+          </p>
+          <p class="font-medium">
+            <span>9</span>
+            <span class="animate-caret-blink duration-1000 ease-linear">:</span>
+            <span>15</span>
+          </p>
           <div class="flex gap-0.5 rounded-md bg-gray-800 p-1 py-0.5">
             <div class="h-3 w-1 bg-transparent"></div>
             <div class="h-3 w-1 bg-blue-500"></div>
@@ -66,7 +94,7 @@
         <div class="flex items-center justify-center gap-2">
           <!-- <h3 class="text-4xl font-bold text-emerald-400">Activity Log</h3> -->
           <img
-            src={`${base}/icons/Activity_Log_Logo.svg`}
+            src={`${asset("/icons/Activity_Log_Logo.svg")}`}
             alt=""
             class="h-auto w-max drop-shadow-xl"
             width="468"

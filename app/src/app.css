@@ -294,3 +294,7 @@
     @apply inline-flex items-center gap-1 rounded-xs font-medium underline underline-offset-4 hover:text-foreground/80 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden;
   }
 }
+
+@utility no-scrollbar {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}

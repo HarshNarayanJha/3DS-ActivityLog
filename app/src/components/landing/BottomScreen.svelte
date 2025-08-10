@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { SYSTEM_APPLICATIONS } from "$/lib/titledb"
+  import type { TitleData } from "$/lib/types"
   import { base } from "$app/paths"
   import TitleIcon from "$components/activitylog/TitleIcon.svelte"
   import type { Snippet } from "svelte"
@@ -8,12 +10,22 @@
   }
   let { children }: Props = $props()
 
-  const icons = [
+  const appletIcons = [
     { path: `${base}/icons/game_notes.png` },
     { path: `${base}/icons/friends.png` },
     { path: `${base}/icons/notifications.png` },
     { path: `${base}/icons/browser.png` },
-    { path: `${base}/icons/Miiverse_3DS_Icon.svg` }
+    { path: `${base}/icons/miiverse.png` }
+  ]
+
+  const homeScreenTitles: Array<TitleData> = [
+    SYSTEM_APPLICATIONS["00021400"], // camera
+    SYSTEM_APPLICATIONS["00021000"], // system settings
+    SYSTEM_APPLICATIONS["00021200"], // activity log
+    SYSTEM_APPLICATIONS["00021700"], // mii maker
+    SYSTEM_APPLICATIONS["20021300"], // health and safety
+    SYSTEM_APPLICATIONS["00021500"], // sound
+    SYSTEM_APPLICATIONS["00021900"] // eshop
   ]
 </script>
 
@@ -33,8 +45,8 @@
           HS
         </div>
         <div class="flex flex-1 flex-row items-center justify-evenly gap-2">
-          {#each icons as ic (ic.path)}
-            <img src={ic.path} alt="" width="40" height="40" class="h-10 w-10" />
+          {#each appletIcons as ic (ic.path)}
+            <img src={ic.path} alt="" width="44" height="44" class="h-11 w-auto object-cover" />
           {/each}
         </div>
         <div
@@ -45,21 +57,33 @@
       </div>
       <div
         id="bottom-screen-area"
-        class="mx-auto h-auto w-3/4 place-self-center justify-self-center"
+        class="mx-auto flex h-full w-full flex-col items-stretch justify-between place-self-center justify-self-center border-2 border-s-0 border-e-0 border-white bg-neutral-300 py-4"
       >
-        <TitleIcon
-          class="mx-auto mb-4 w-max"
-          src={`${base}/icons/activity_log.png`}
-          alt="Activity Log"
-        />
-        {@render children?.()}
+        <div class="mx-auto w-10/12">
+          {@render children?.()}
+        </div>
+        <div
+          class="no-scrollbar flex w-full flex-row items-center justify-start gap-3 overflow-scroll px-8"
+        >
+          {#each homeScreenTitles as title (title.tid)}
+            <TitleIcon src={title.iconUrl!} alt={title.titleName} />
+          {/each}
+        </div>
       </div>
       <div
         id="bottom-screen-footer"
         class="grid h-8 w-full grid-cols-[1fr_3fr] place-self-end text-center text-black"
       >
-        <div class="bg-yellow-500 px-4 py-1">Manual</div>
-        <div class="bg-yellow-500 px-4 py-1">Open</div>
+        <div
+          class="border border-s-0 border-e-0 border-b-0 border-neutral-500 bg-gradient-to-b from-neutral-200 from-50% to-neutral-400 px-4 py-1"
+        >
+          Manual
+        </div>
+        <div
+          class="rounded-tr-2xl border border-b-0 border-neutral-500 bg-gradient-to-b from-neutral-200 from-50% to-neutral-400 px-4 py-1"
+        >
+          Open
+        </div>
       </div>
     </div>
   </div>
