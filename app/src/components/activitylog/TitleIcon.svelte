@@ -12,24 +12,25 @@
 
 <div
   class={[
-    "h-fit w-fit rounded-lg p-2.5",
-    "shadow-md/50 shadow-gray-600",
-    "icon-gradient",
+    "h-fit w-fit rounded-lg p-0.25",
+    "bg-gradient-to-b from-[#ffffffae] to-gray-400",
     className
   ]}
 >
-  <img
-    {src}
-    {alt}
-    width="50"
-    height="50"
-    class="h-[50px] w-[50px] rounded-sm border border-white"
-  />
+  <div class={["rounded-lg p-2.5", "shadow-md/50 shadow-gray-600", "icon-gradient"]}>
+    <img
+      {src}
+      {alt}
+      width="50"
+      height="50"
+      class="h-[50px] w-[50px] rounded-sm border border-white"
+    />
+  </div>
 </div>
 
 <style scoped>
   .icon-gradient {
-    --gradient-color: var(--color-gray-400);
+    --gradient-color: var(--color-gray-300);
 
     background:
       linear-gradient(to bottom, #ffffffae 0%, #ffffffae 80%, transparent),

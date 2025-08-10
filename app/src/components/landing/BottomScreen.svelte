@@ -10,9 +10,9 @@
 
   const icons = [
     { path: `${base}/icons/game_notes.png` },
-    { path: `${base}/icons/browser.png` },
-    { path: `${base}/icons/notifications.png` },
     { path: `${base}/icons/friends.png` },
+    { path: `${base}/icons/notifications.png` },
+    { path: `${base}/icons/browser.png` },
     { path: `${base}/icons/Miiverse_3DS_Icon.svg` }
   ]
 </script>
