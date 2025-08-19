@@ -59,7 +59,7 @@
   {#if isLoading}
     <div class="aspect-[1.63] h-full w-full bg-black" in:fade={{ duration: 500 }}>
       <div class="grid h-full w-full grid-cols-1 place-content-center">
-        <h3 class="text-center" in:fade|global={{ delay: 300 }}>New Nintendo 3DS XL</h3>
+        <h3 class="text-center text-5xl" in:fade|global={{ delay: 300 }}>New Nintendo 3DS XL</h3>
       </div>
     </div>
   {:else}

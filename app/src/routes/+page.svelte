@@ -11,6 +11,8 @@
   let csvFile = $state<File | null>(null)
   let isLoading = $state(false)
 
+  let showFile3DS = $derived(isLoading || csvFile === null || gState.playHistory === null)
+
   const onUpload = async (file: File) => {
     isLoading = true
     await tick()
@@ -46,15 +48,25 @@
   }
 </script>
 
+<svelte:head>
+  {#if showFile3DS}
+    <title>Activity Upload | 3DS Activity Log</title>
+    <meta name="description" content="Upload your 3DS Activity Log File" />
+  {:else}
+    <title>Activity Log Browser | 3DS Activity Log</title>
+    <meta name="description" content="3DS Activity Log Browser" />
+  {/if}
+</svelte:head>
+
 <div class="grid min-h-[70svh] w-full grid-cols-1 gap-4 px-16 py-24">
-  {#if isLoading || csvFile === null || gState.playHistory === null}
+  {#if showFile3DS}
     <TopScreen {isLoading} />
     <BottomScreen {isLoading}>
       <FileUpload onSuccessfulUpload={onUpload} />
     </BottomScreen>
   {:else}
     <ActivityLogViewer
-      playHistory={gState.playHistory}
+      playHistory={gState.playHistory!}
       dates={gState.dates}
       firstDate={gState.firstDate!}
       lastDate={gState.lastDate!}

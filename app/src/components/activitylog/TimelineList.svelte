@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { HOME_MENU_TID } from "$/lib/titledb"
+  import { HOME_MENU_TID, SYSTEM_APPLICATIONS_TIDHIGH } from "$/lib/titledb"
   import { EntryType, PlayEvent, SystemEvent, type PlayEntry } from "$/lib/types"
   import { formatTimestamp, parseTimestamp } from "$/lib/utils"
   import LogEntryCard from "./LogEntryCard.svelte"
+  import TitleIcon from "./TitleIcon.svelte"
 
   interface Props {
     entries: Array<[number, PlayEntry]>
@@ -50,54 +51,132 @@
     entry.entryType === EntryType.SYSTEM && entry.systemEvent === SystemEvent.SLEEP_END
 </script>
 
-<div class="mx-auto text-center">
+<div class="mx-auto">
   {#each entries as [r, entry] (r)}
-    {#if isHomeMenuOpen(entry)}
-      <p class="mx-auto p-4">Home Menu launched at {formatTimestamp(entry.timestamp)}</p>
-    {:else if isShutdown(entry)}
-      <p class="mx-auto p-4">3DS Stopped at {formatTimestamp(entry.timestamp)}</p>
-    {:else if isSystemSleepStart(entry)}
-      <p class="mx-auto p-4">3DS put to sleep at {formatTimestamp(entry.timestamp)}</p>
-    {:else if isSystemSleepEnd(entry)}
-      <p class="mx-auto p-4">3DS woke from sleep at {formatTimestamp(entry.timestamp)}</p>
-    {:else if isAppletLaunch(entry)}
-      <p class="mx-auto p-4">
-        {entry.applet?.appletName} Launched at {formatTimestamp(entry.timestamp)}
-      </p>
-    {:else if isAppletSuspend(entry)}
-      <p class="mx-auto p-4">
-        {entry.applet?.appletName} Suspend at {formatTimestamp(entry.timestamp)}
-      </p>
-    {:else if isAppletResume(entry)}
-      <p class="mx-auto p-4">
-        {entry.applet?.appletName} Resumed at {formatTimestamp(entry.timestamp)}
-      </p>
-    {:else if isAppletClose(entry)}
-      <p class="mx-auto p-4">
-        {entry.applet?.appletName} Closed at {formatTimestamp(entry.timestamp)}
-      </p>
-    {:else if isApplicationLaunch(entry)}
-      <p class="mx-auto p-4">
-        {entry.title?.titleName} Launched at {formatTimestamp(entry.timestamp)}
-      </p>
-    {:else if isApplicationSuspend(entry)}
-      <p class="mx-auto p-4">
-        {entry.title?.titleName} Suspend at {formatTimestamp(entry.timestamp)}
-      </p>
-    {:else if isApplicationResume(entry)}
-      <p class="mx-auto p-4">
-        {entry.title?.titleName} Resumed at {formatTimestamp(entry.timestamp)}
-      </p>
-    {:else if isApplicationClose(entry)}
-      <p class="mx-auto p-4">
-        {entry.title?.titleName} Closed at {formatTimestamp(entry.timestamp)}
-      </p>
-    {:else}
-      <div>
-        <span class="font-mono text-muted-foreground">{r - 1}</span>
-        <LogEntryCard playEntry={entry} />
+    <div
+      class="mx-auto prose h-auto w-full rounded-xl p-4 shadow-xl dark:prose-invert"
+      data-tid={entry.title?.tid.toUpperCase()}
+    >
+      <div class="group flex w-full flex-row items-center justify-between gap-2">
+        {#if isHomeMenuOpen(entry)}
+          <p>Home Menu Launched</p>
+        {:else if isShutdown(entry)}
+          <p>3DS Stopped</p>
+        {:else if isSystemSleepStart(entry)}
+          <p>3DS put to sleep</p>
+        {:else if isSystemSleepEnd(entry)}
+          <p>3DS woke from sleep</p>
+        {:else if isAppletLaunch(entry)}
+          <p>
+            {entry.applet?.appletName} Launched
+          </p>
+        {:else if isAppletSuspend(entry)}
+          <p>
+            {entry.applet?.appletName} Suspend
+          </p>
+        {:else if isAppletResume(entry)}
+          <p>
+            {entry.applet?.appletName} Resumed
+          </p>
+        {:else if isAppletClose(entry)}
+          <p>
+            {entry.applet?.appletName} Closed
+          </p>
+        {:else if isApplicationLaunch(entry)}
+          <div class="flex flex-row items-center gap-2">
+            {#if entry.title!.tid.startsWith(SYSTEM_APPLICATIONS_TIDHIGH)}
+              <TitleIcon
+                src={entry.title!.iconUrl ?? ""}
+                alt=""
+                class="not-prose"
+                tid={entry.title!.tid}
+              />
+            {:else}
+              <TitleIcon
+                src={`https://api.ghseshop.cc/${entry.title!.tid}/icon`}
+                tid={entry.title!.tid}
+                alt=""
+                class="not-prose"
+              />
+            {/if}
+            <p>
+              {entry.title?.titleName} Launched
+            </p>
+          </div>
+        {:else if isApplicationSuspend(entry)}
+          <div class="flex flex-row items-center gap-2">
+            {#if entry.title!.tid.startsWith(SYSTEM_APPLICATIONS_TIDHIGH)}
+              <TitleIcon
+                src={entry.title!.iconUrl ?? ""}
+                alt=""
+                class="not-prose"
+                tid={entry.title!.tid}
+              />
+            {:else}
+              <TitleIcon
+                src={`https://api.ghseshop.cc/${entry.title!.tid}/icon`}
+                tid={entry.title!.tid}
+                alt=""
+                class="not-prose"
+              />
+            {/if}
+            <p>
+              {entry.title?.titleName} Suspended
+            </p>
+          </div>
+        {:else if isApplicationResume(entry)}
+          <div class="flex flex-row items-center gap-2">
+            {#if entry.title!.tid.startsWith(SYSTEM_APPLICATIONS_TIDHIGH)}
+              <TitleIcon
+                src={entry.title!.iconUrl ?? ""}
+                alt=""
+                class="not-prose"
+                tid={entry.title!.tid}
+              />
+            {:else}
+              <TitleIcon
+                src={`https://api.ghseshop.cc/${entry.title!.tid}/icon`}
+                tid={entry.title!.tid}
+                alt=""
+                class="not-prose"
+              />
+            {/if}
+            <p>
+              {entry.title?.titleName} Resumed
+            </p>
+          </div>
+        {:else if isApplicationClose(entry)}
+          <div class="flex flex-row items-center gap-2">
+            {#if entry.title!.tid.startsWith(SYSTEM_APPLICATIONS_TIDHIGH)}
+              <TitleIcon
+                src={entry.title!.iconUrl ?? ""}
+                alt=""
+                class="not-prose"
+                tid={entry.title!.tid}
+              />
+            {:else}
+              <TitleIcon
+                src={`https://api.ghseshop.cc/${entry.title!.tid}/icon`}
+                tid={entry.title!.tid}
+                alt=""
+                class="not-prose"
+              />
+            {/if}
+            <p>
+              {entry.title?.titleName} Closed
+            </p>
+          </div>
+        {:else}
+          <div>
+            <span class="font-mono text-muted-foreground">{r - 1}</span>
+            <LogEntryCard playEntry={entry} />
+          </div>
+        {/if}
+        <code class="self-end opacity-0 group-hover:opacity-50">
+          {formatTimestamp(entry.timestamp)}
+        </code>
       </div>
-    {/if}
+    </div>
   {:else}
     <div>No Data</div>
   {/each}
