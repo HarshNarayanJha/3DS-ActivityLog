@@ -6,10 +6,15 @@
   import { globalState as gState } from "$/lib/global.svelte"
   import { stats } from "$/lib/3dsdbapi"
   import ActivityLogViewer from "$components/ActivityLogViewer.svelte"
+  import { tick } from "svelte"
 
   let csvFile = $state<File | null>(null)
+  let isLoading = $state(false)
 
   const onUpload = async (file: File) => {
+    isLoading = true
+    await tick()
+
     csvFile = file
     const parser = new PlayHistoryParser()
 
@@ -35,16 +40,18 @@
       gState.reset()
       csvFile = null
     }
+
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    isLoading = false
   }
 </script>
 
 <div class="grid min-h-[70svh] w-full grid-cols-1 gap-4 px-16 py-24">
-  {#if csvFile === null || gState.playHistory === null}
-    <TopScreen />
-    <BottomScreen>
+  {#if isLoading || csvFile === null || gState.playHistory === null}
+    <TopScreen {isLoading} />
+    <BottomScreen {isLoading}>
       <FileUpload onSuccessfulUpload={onUpload} />
     </BottomScreen>
-    <!-- <Landing /> -->
   {:else}
     <ActivityLogViewer
       playHistory={gState.playHistory}

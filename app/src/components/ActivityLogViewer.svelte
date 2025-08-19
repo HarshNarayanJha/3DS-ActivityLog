@@ -307,9 +307,9 @@
     }
   }
 
-  $inspect(years, frequency, viewType, firstDate, lastDate, currentSlice, currentSliceDate).with(
-    console.log
-  )
+  // $inspect(years, frequency, viewType, firstDate, lastDate, currentSlice, currentSliceDate).with(
+  //   console.log
+  // )
 </script>
 
 {#if playHistory === null}

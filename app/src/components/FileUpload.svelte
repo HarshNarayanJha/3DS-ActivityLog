@@ -2,18 +2,18 @@
   import Dropzone from "svelte-file-dropzone"
 
   interface Props {
-    onSuccessfulUpload: (file: File) => void
+    onSuccessfulUpload: (file: File) => Promise<void>
   }
 
   let { onSuccessfulUpload }: Props = $props()
 
   let file = $state<File | null>(null)
 
-  function handleFilesSelect(e: CustomEvent<any>) {
+  async function handleFilesSelect(e: CustomEvent<any>) {
     const { acceptedFiles } = e.detail
     if (acceptedFiles && acceptedFiles[0]) {
       file = acceptedFiles[0] as File
-      onSuccessfulUpload(file)
+      await onSuccessfulUpload(file)
     }
   }
 </script>

@@ -1,13 +1,24 @@
 <script lang="ts">
+  import { base } from "$app/paths"
   import type { ClassValue } from "svelte/elements"
 
   interface Props {
     src: string
+    tid: string
     alt: string
     class?: ClassValue
   }
 
-  let { src, alt, class: className }: Props = $props()
+  let { src, tid, alt, class: className }: Props = $props()
+
+  let isError = $state(false)
+
+  function handleError(event: any) {
+    if (isError) return
+
+    isError = true
+    event.target.src = `${base}/icons/${tid.toUpperCase()}.png`
+  }
 </script>
 
 <div
@@ -24,6 +35,7 @@
       width="50"
       height="50"
       class="aspect-square h-[50px] min-h-[50px] w-[50px] min-w-[50px] rounded-sm border border-white"
+      onerror={handleError}
     />
   </div>
 </div>

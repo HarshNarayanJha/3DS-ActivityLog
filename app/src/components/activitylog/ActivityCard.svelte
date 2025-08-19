@@ -25,11 +25,14 @@
         alt=""
       /> -->
     {#if title.tid.startsWith(SYSTEM_APPLICATIONS_TIDHIGH)}
-      <TitleIcon src={title.iconUrl ?? ""} alt="" class="not-prose" />
-      <!-- <img src={title.iconUrl} alt="" /> -->
+      <TitleIcon src={title.iconUrl ?? ""} alt="" class="not-prose" tid={title.tid} />
     {:else}
-      <TitleIcon src={`https://api.ghseshop.cc/${title.tid}/icon`} alt="" class="not-prose" />
-      <!-- <img src={`https://api.ghseshop.cc/${title.tid}/icon`} alt="" /> -->
+      <TitleIcon
+        src={`https://api.ghseshop.cc/${title.tid}/icon`}
+        tid={title.tid}
+        alt=""
+        class="not-prose"
+      />
     {/if}
 
     <div>
