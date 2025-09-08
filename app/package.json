@@ -30,7 +30,7 @@
     "vite": "^7.1.0"
   },
   "dependencies": {
-    "bits-ui": "^2.9.2",
+    "bits-ui": "^2.9.6",
     "luxon": "^3.7.1",
     "mode-watcher": "^1.1.0",
     "svelte-file-dropzone": "^2.0.9"
