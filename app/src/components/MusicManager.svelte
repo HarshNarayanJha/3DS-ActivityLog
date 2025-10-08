@@ -16,15 +16,18 @@
   let loop = $state<boolean>(true)
 
   const play = () => {
+    console.log("Play9ing")
     player?.play()
     playing = true
   }
 
   const pause = () => {
+    console.log("Pausing")
     player?.pause()
     playing = false
   }
   const toggle = () => {
+    console.log("Toggle", player?.paused)
     if (player?.paused) {
       play()
     } else {
@@ -33,10 +36,13 @@
   }
 
   onMount(() => {
-    // TODO: Chrome and others don't allow autoplay without user interaction first
-    document.addEventListener("click", () => {
+    const initialPlay = () => {
       play()
-    })
+      document.removeEventListener("click", initialPlay)
+    }
+
+    // TODO: Chrome and others don't allow autoplay without user interaction first
+    document.addEventListener("click", initialPlay)
 
     setTimeout(play, 2000)
   })
