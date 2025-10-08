@@ -14,25 +14,28 @@
     "lint": "prettier --check ."
   },
   "devDependencies": {
-    "@sveltejs/adapter-static": "^3.0.8",
-    "@sveltejs/kit": "^2.27.2",
-    "@sveltejs/vite-plugin-svelte": "^6.1.0",
-    "@tailwindcss/typography": "^0.5.16",
-    "@tailwindcss/vite": "^4.1.11",
+    "@sveltejs/adapter-static": "^3.0.10",
+    "@sveltejs/kit": "^2.46.2",
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.1.14",
     "@types/luxon": "^3.7.1",
     "prettier": "^3.6.2",
     "prettier-plugin-svelte": "^3.4.0",
     "prettier-plugin-tailwindcss": "^0.6.14",
-    "svelte": "^5.38.0",
-    "svelte-check": "^4.3.1",
-    "tailwindcss": "^4.1.11",
-    "typescript": "^5.9.2",
-    "vite": "^7.1.0"
+    "svelte": "^5.39.10",
+    "svelte-check": "^4.3.2",
+    "tailwindcss": "^4.1.14",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.9"
   },
   "dependencies": {
-    "bits-ui": "^2.9.2",
-    "luxon": "^3.7.1",
+    "bits-ui": "^2.11.4",
+    "luxon": "^3.7.2",
     "mode-watcher": "^1.1.0",
     "svelte-file-dropzone": "^2.0.9"
-  }
+  },
+  "trustedDependencies": [
+    "@tailwindcss/oxide"
+  ]
 }
