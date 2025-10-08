@@ -4,6 +4,7 @@ import { parseTimestamp } from "./utils"
 
 export class GlobalState {
   playHistory = $state<PlayHistory | null>(null)
+  audioSrc: string | null = $state<string | null>(null)
 
   years = $derived.by(() => {
     if (this.playHistory === null) {
@@ -36,6 +37,7 @@ export class GlobalState {
 
   reset() {
     this.playHistory = null
+    this.audioSrc = null
   }
 }
 

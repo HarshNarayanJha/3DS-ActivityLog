@@ -113,7 +113,7 @@
             <img
               src={`${asset("/icons/Activity_Log_Logo.svg")}`}
               alt=""
-              class="h-auto w-max drop-shadow-xl"
+              class="h-auto w-max animate-sway drop-shadow-xl"
               width="468"
             />
           </div>

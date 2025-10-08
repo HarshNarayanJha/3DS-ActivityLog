@@ -7,11 +7,13 @@
   import { stats } from "$/lib/3dsdbapi"
   import ActivityLogViewer from "$components/ActivityLogViewer.svelte"
   import { tick } from "svelte"
+  import { MUSIC_MAP } from "$/lib/ui-types"
 
   let csvFile = $state<File | null>(null)
   let isLoading = $state(false)
 
   let showFile3DS = $derived(isLoading || csvFile === null || gState.playHistory === null)
+  gState.audioSrc = MUSIC_MAP.HOME
 
   const onUpload = async (file: File) => {
     isLoading = true
@@ -34,6 +36,7 @@
       if (gState.playHistory === null) {
         console.error("Error Parsing PlayHistory")
         csvFile = null
+        gState.audioSrc = MUSIC_MAP.HOME
       }
 
       console.log(`${gState.playHistory.size} Play Entries parsed`)
@@ -41,8 +44,10 @@
       console.error(error)
       gState.reset()
       csvFile = null
+      gState.audioSrc = MUSIC_MAP.HOME
     }
 
+    gState.audioSrc = MUSIC_MAP.ACTIVITY_LOG
     await new Promise((resolve) => setTimeout(resolve, 2000))
     isLoading = false
   }

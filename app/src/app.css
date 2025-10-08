@@ -249,6 +249,17 @@
       opacity: 0;
     }
   }
+
+  --animate-sway: sway 3s ease-in-out infinite alternate;
+
+  @keyframes sway {
+    0% {
+      transform: translateY(-2%);
+    }
+    100% {
+      transform: translateY(2%);
+    }
+  }
 }
 
 @layer base {
