@@ -1,13 +1,13 @@
 <script lang="ts">
   import { SYSTEM_APPLICATIONS_TIDHIGH } from "$/lib/titledb"
   import type { TitleData } from "$/lib/types"
-  import { base, resolve } from "$app/paths"
+  import { asset, base } from "$app/paths"
   import type { ClassValue } from "svelte/elements"
 
   interface Props {
     title: TitleData
     alt: string
-    size?: "50" | "40"
+    size?: "96" | "64" | "50" | "40"
     skipBorder?: boolean
     class?: ClassValue
   }
@@ -16,7 +16,7 @@
 
   let src = $derived.by(() => {
     if (title.tid.startsWith(SYSTEM_APPLICATIONS_TIDHIGH))
-      return title.iconUrl ?? resolve("/icons/0000000000000000.png")
+      return title.iconUrl ?? asset("/icons/0000000000000000.png")
 
     return `https://api.ghseshop.cc/${title.tid}/icon`
   })
@@ -24,7 +24,7 @@
   let isError = $state(false)
   function handleError(event: any) {
     if (isError) {
-      event.target.src = resolve("/icons/0000000000000000.png")
+      event.target.src = asset("/icons/0000000000000000.png")
       return
     }
 
@@ -41,6 +41,8 @@
     height={size}
     class={[
       "aspect-square rounded-sm border border-white",
+      size === "96" && "h-24 min-h-24 w-24 min-w-24",
+      size === "64" && "h-16 min-h-16 w-16 min-w-16",
       size === "50" && "h-[50px] min-h-[50px] w-[50px] min-w-[50px]",
       size === "40" && "h-[40px] min-h-[40px] w-[40px] min-w-[40px]"
     ]}

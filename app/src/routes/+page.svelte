@@ -1,18 +1,18 @@
 <script lang="ts">
   import { PlayHistoryParser } from "$/lib/parser"
   import FileUpload from "$components/FileUpload.svelte"
-  import BottomScreen from "$components/landing/BottomScreen.svelte"
-  import TopScreen from "$components/landing/TopScreen.svelte"
   import { globalState as gState } from "$/lib/global.svelte"
   import { stats } from "$/lib/3dsdbapi"
-  import ActivityLogViewer from "$components/ActivityLogViewer.svelte"
   import { tick } from "svelte"
   import { MUSIC_MAP } from "$/lib/ui-types"
+  import TopHomeScreen from "$components/landing/TopHomeScreen.svelte"
+  import BottomHomeScreen from "$components/landing/BottomHomeScreen.svelte"
+  import ActivityLogHome from "$components/ActivityLogHome.svelte"
 
   let csvFile = $state<File | null>(null)
   let isLoading = $state(false)
 
-  let showFile3DS = $derived(isLoading || csvFile === null || gState.playHistory === null)
+  let showFile3DS = $derived(isLoading || !gState.isStable)
   gState.audioSrc = MUSIC_MAP.HOME
 
   const onUpload = async (file: File) => {
@@ -25,6 +25,7 @@
     try {
       const contents = await csvFile.text()
       gState.playHistory = await parser.parse(contents)
+      gState.buildPlayStats()
       console.log(stats)
       // console.log(
       //   gState.dates
@@ -39,7 +40,14 @@
         gState.audioSrc = MUSIC_MAP.HOME
       }
 
+      if (gState.playStats === null) {
+        console.error("Error Parsing PlayStats")
+        csvFile = null
+        gState.audioSrc = MUSIC_MAP.HOME
+      }
+
       console.log(`${gState.playHistory.size} Play Entries parsed`)
+      console.log(`${gState.playStats?.totalTitles} total title stats`)
     } catch (error) {
       console.error(error)
       gState.reset()
@@ -58,24 +66,25 @@
     <title>Activity Upload | 3DS Activity Log</title>
     <meta name="description" content="Upload your 3DS Activity Log File" />
   {:else}
-    <title>Activity Log Browser | 3DS Activity Log</title>
-    <meta name="description" content="3DS Activity Log Browser" />
+    <title>Activity Log Home | 3DS Activity Log</title>
+    <meta name="description" content="3DS Activity Log Home" />
   {/if}
 </svelte:head>
 
 <div class="grid min-h-[70svh] w-full grid-cols-1 gap-4 px-16 py-24">
   {#if showFile3DS}
-    <TopScreen {isLoading} />
-    <BottomScreen {isLoading}>
+    <TopHomeScreen {isLoading} />
+    <BottomHomeScreen {isLoading}>
       <FileUpload onSuccessfulUpload={onUpload} />
-    </BottomScreen>
+    </BottomHomeScreen>
   {:else}
-    <ActivityLogViewer
+    <ActivityLogHome playStats={gState.playStats!} />
+    <!-- <ActivityLogViewer
       playHistory={gState.playHistory!}
       dates={gState.dates}
       firstDate={gState.firstDate!}
       lastDate={gState.lastDate!}
       years={gState.years}
-    />
+    /> -->
   {/if}
 </div>

@@ -10,7 +10,6 @@
     zoomIntoDateRange
   } from "$/lib/utils"
   import { DateTime, type DateTimeUnit } from "luxon"
-  import LogEntryCard from "./activitylog/LogEntryCard.svelte"
   import Toolbar from "./activitylog/Toolbar.svelte"
   import N3DSButton from "./ui/N3DSButton.svelte"
   import RangedCardsList from "./activitylog/RangedCardsList.svelte"

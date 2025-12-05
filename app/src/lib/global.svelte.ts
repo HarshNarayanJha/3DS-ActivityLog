@@ -1,10 +1,14 @@
 import { DateTime } from "luxon"
-import type { PlayHistory } from "./types"
+import type { PlayHistory, PlayStats } from "./types"
 import { parseTimestamp } from "./utils"
+import { getPlayStats } from "./stats"
 
 export class GlobalState {
   playHistory = $state<PlayHistory | null>(null)
-  audioSrc: string | null = $state<string | null>(null)
+  playStats = $state<PlayStats | null>(null)
+  audioSrc = $state<string | null>(null)
+
+  isStable = $derived(this.playHistory !== null && this.playStats !== null)
 
   years = $derived.by(() => {
     if (this.playHistory === null) {
@@ -35,8 +39,20 @@ export class GlobalState {
   firstDate = $derived(DateTime.min(...this.dates) ?? null)
   lastDate = $derived(DateTime.max(...this.dates) ?? null)
 
+  buildPlayStats() {
+    if (!this.playHistory) {
+      this.playStats = null
+      return
+    }
+
+    console.debug("Begin to generate play statistics from history")
+    this.playStats = getPlayStats(this.playHistory)
+    console.debug("Done generating play statistics from history")
+  }
+
   reset() {
     this.playHistory = null
+    this.playStats = null
     this.audioSrc = null
   }
 }

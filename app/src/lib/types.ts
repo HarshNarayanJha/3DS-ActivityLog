@@ -1,3 +1,5 @@
+import type { DateTime } from "luxon"
+
 export enum PlayEvent {
   OPEN,
   CLOSE,
@@ -58,7 +60,7 @@ export interface AppletData {
   regions: Array<"USA" | "EUR" | "JPN" | "CHN" | "KOR" | "TWN">
 }
 
-export interface PlayEntry {
+export type PlayEntry = {
   title?: TitleData
   applet?: AppletData
   entryType: EntryType
@@ -77,3 +79,18 @@ export interface TitleInfo {
 }
 
 export type PlayHistory = Map<number, PlayEntry>
+
+export type TitleStats = {
+  title: TitleData
+  playTime: number
+  timesPlayed: number
+  averagePlayTime: number
+  firstPlayed: DateTime
+  lastPlayed: DateTime
+}
+
+export type PlayStats = {
+  totalTitles: number
+  totalPlayTime: number
+  titles: Map<string, TitleStats>
+}

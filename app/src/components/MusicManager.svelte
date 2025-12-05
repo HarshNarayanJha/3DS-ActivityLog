@@ -4,14 +4,14 @@
   import N3DSButton from "./ui/N3DSButton.svelte"
 
   interface Props {
-    autoplay: boolean
+    autoplay?: boolean
   }
 
   let { autoplay = true }: Props = $props()
 
   let player: HTMLAudioElement | null = $state(null)
 
-  let playing = $state(true)
+  let playing = $state(autoplay)
   let src = $derived(gState.audioSrc)
   let loop = $state<boolean>(true)
 
@@ -37,14 +37,16 @@
 
   onMount(() => {
     const initialPlay = () => {
-      play()
       document.removeEventListener("click", initialPlay)
+
+      if (!autoplay) return
+      play()
     }
 
     // TODO: Chrome and others don't allow autoplay without user interaction first
     document.addEventListener("click", initialPlay)
 
-    setTimeout(play, 2000)
+    setTimeout(initialPlay, 2000)
   })
 </script>
 
