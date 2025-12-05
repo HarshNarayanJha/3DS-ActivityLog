@@ -1,44 +1,71 @@
 <script lang="ts">
-  import { base } from "$app/paths"
+  import { SYSTEM_APPLICATIONS_TIDHIGH } from "$/lib/titledb"
+  import type { TitleData } from "$/lib/types"
+  import { base, resolve } from "$app/paths"
   import type { ClassValue } from "svelte/elements"
 
   interface Props {
-    src: string
-    tid: string
+    title: TitleData
     alt: string
+    size?: "50" | "40"
+    skipBorder?: boolean
     class?: ClassValue
   }
 
-  let { src, tid, alt, class: className }: Props = $props()
+  let { title, alt, skipBorder = false, size = "50", class: className }: Props = $props()
+
+  let src = $derived.by(() => {
+    if (title.tid.startsWith(SYSTEM_APPLICATIONS_TIDHIGH))
+      return title.iconUrl ?? resolve("/icons/0000000000000000.png")
+
+    return `https://api.ghseshop.cc/${title.tid}/icon`
+  })
 
   let isError = $state(false)
-
   function handleError(event: any) {
-    if (isError) return
+    if (isError) {
+      event.target.src = resolve("/icons/0000000000000000.png")
+      return
+    }
 
     isError = true
-    event.target.src = `${base}/icons/${tid.toUpperCase()}.png`
+    event.target.src = `${base}/icons/${title.tid.toUpperCase()}.png`
   }
 </script>
 
-<div
-  class={[
-    "aspect-square h-fit w-fit rounded-xl p-0.25",
-    "bg-gradient-to-b from-[#ffffffae] to-gray-400",
-    className
-  ]}
->
-  <div class={["rounded-xl p-2.5", "shadow-md/50 shadow-gray-600", "icon-gradient"]}>
-    <img
-      {src}
-      {alt}
-      width="50"
-      height="50"
-      class="aspect-square h-[50px] min-h-[50px] w-[50px] min-w-[50px] rounded-sm border border-white"
-      onerror={handleError}
-    />
+{#if skipBorder}
+  <img
+    {src}
+    {alt}
+    width={size}
+    height={size}
+    class={[
+      "aspect-square rounded-sm border border-white",
+      size === "50" && "h-[50px] min-h-[50px] w-[50px] min-w-[50px]",
+      size === "40" && "h-[40px] min-h-[40px] w-[40px] min-w-[40px]"
+    ]}
+    onerror={handleError}
+  />
+{:else}
+  <div
+    class={[
+      "aspect-square h-fit w-fit rounded-xl p-px",
+      "bg-linear-to-b from-[#ffffffae] to-gray-400",
+      className
+    ]}
+  >
+    <div class={["rounded-xl p-2.5", "shadow-md/50 shadow-gray-600", "icon-gradient"]}>
+      <img
+        {src}
+        {alt}
+        width={size}
+        height={size}
+        class="aspect-square h-[50px] min-h-[50px] w-[50px] min-w-[50px] rounded-sm border border-white"
+        onerror={handleError}
+      />
+    </div>
   </div>
-</div>
+{/if}
 
 <style scoped>
   .icon-gradient {

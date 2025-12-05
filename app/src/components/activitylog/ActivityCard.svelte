@@ -24,16 +24,8 @@
         src={`https://art.gametdb.com/3ds/box/US/${title!.serial.split("-")[2]}.png?1451868970`}
         alt=""
       /> -->
-    {#if title.tid.startsWith(SYSTEM_APPLICATIONS_TIDHIGH)}
-      <TitleIcon src={title.iconUrl ?? ""} alt="" class="not-prose" tid={title.tid} />
-    {:else}
-      <TitleIcon
-        src={`https://api.ghseshop.cc/${title.tid}/icon`}
-        tid={title.tid}
-        alt=""
-        class="not-prose"
-      />
-    {/if}
+
+    <TitleIcon {title} alt="" class="not-prose" />
 
     <div>
       <h3 class="mt-0 mb-0 font-bold">{title.titleName}</h3>

@@ -71,7 +71,7 @@
             class="no-scrollbar flex w-full flex-row items-center justify-start gap-3 overflow-scroll px-8"
           >
             {#each homeScreenTitles as title (title.tid)}
-              <TitleIcon tid={title.tid} src={title.iconUrl!} alt={title.titleName} />
+              <TitleIcon {title} alt={title.titleName} />
             {/each}
           </div>
         </div>
@@ -80,12 +80,12 @@
           class="grid h-8 w-full grid-cols-[1fr_3fr] place-self-end text-center text-black"
         >
           <div
-            class="border border-s-0 border-e-0 border-b-0 border-neutral-500 bg-gradient-to-b from-neutral-200 from-50% to-neutral-400 px-4 py-1"
+            class="border border-s-0 border-e-0 border-b-0 border-neutral-500 bg-linear-to-b from-neutral-200 from-50% to-neutral-400 px-4 py-1"
           >
             Manual
           </div>
           <div
-            class="rounded-tr-2xl border border-b-0 border-neutral-500 bg-gradient-to-b from-neutral-200 from-50% to-neutral-400 px-4 py-1"
+            class="rounded-tr-2xl border border-b-0 border-neutral-500 bg-linear-to-b from-neutral-200 from-50% to-neutral-400 px-4 py-1"
           >
             Open
           </div>
