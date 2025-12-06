@@ -7,3 +7,4 @@
 3. Software Library Screen
    a. (top) detail card about the currently selected title
    b. (bottom) Grid of all titles
+4. Daily Activity Screen - Will have daily logs and timeline views
