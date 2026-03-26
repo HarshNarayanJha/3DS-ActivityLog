@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 data: dict[str, dict[str, str]] = {}
 WIKI_URL = "https://wiki.hacks.guide/wiki/User:ItsCrocoSwine/3DS_homebrew_title_information"
-FILE_PATH = "./data/final_hb_title_list.json"
+FILE_PATH = "./data/generated/final_hb_title_list.json"
 
 response = requests.get(WIKI_URL)
 

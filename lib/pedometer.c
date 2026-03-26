@@ -8,7 +8,7 @@ struct PedoEntry {
 } __attribute__((packed));
 
 int main() {
-  FILE *pedo = fopen("data/Pedometer.dat", "rb");
+  FILE *pedo = fopen("output/Pedometer.dat", "rb");
   if (!pedo) {
     perror("Failed to open pedometer.dat");
     return 1;

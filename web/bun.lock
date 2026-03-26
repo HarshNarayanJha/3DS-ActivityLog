@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "app",
+      "name": "web",
       "dependencies": {
         "bits-ui": "^2.16.3",
         "luxon": "^3.7.2",

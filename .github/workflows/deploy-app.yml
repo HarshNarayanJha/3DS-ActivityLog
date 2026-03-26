@@ -30,7 +30,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd app
+          cd web
           bun install
 
       - name: Setup Pages
@@ -41,7 +41,7 @@ jobs:
 
       - name: Build
         run: |
-          cd app
+          cd web
           bun run build
         env:
           BASE_PATH: ${{ steps.setup-pages.outputs.base_path }}
@@ -50,7 +50,7 @@ jobs:
         id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "app/build/"
+          path: "web/build/"
 
   deploy:
     needs: build

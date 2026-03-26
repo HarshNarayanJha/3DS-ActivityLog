@@ -1,9 +1,9 @@
 import json
 
 files = [
-    "./data/ghost-land-3dsdb-initial_data-games.json",
-    "./data/ghost-land-3dsdb-initial_data-virtual_console.json",
-    "./data/ghost-land-3dsdb-initial_data-dsiware.json",
+    "./data/sample/ghost-land-3dsdb-initial_data-games.json",
+    "./data/sample/ghost-land-3dsdb-initial_data-virtual_console.json",
+    "./data/sample/ghost-land-3dsdb-initial_data-dsiware.json",
 ]
 
 final_fallback_data = {}
@@ -33,5 +33,5 @@ for f in files:
             # "boxArtUrl": data["media"]["thumbnails"][0] if len(data["media"]["thumbnails"]) > 0 else "",
         }
 
-with open("./data/final_fallback_title_list.json", "w") as fp:
+with open("./data/generated/final_fallback_title_list.json", "w") as fp:
     json.dump(final_fallback_data, fp, indent=2)

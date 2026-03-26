@@ -11,7 +11,7 @@ from typing import Any
 
 import requests
 
-OUTPUT = "./data/final_title_list.json"
+OUTPUT = "./data/generated/final_title_list.json"
 
 logging.basicConfig(format="%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S", level=logging.INFO)
 logging.getLogger().handlers[0].setFormatter(
@@ -60,11 +60,11 @@ def get_api_details(tid: str) -> dict[str, Any]:
 
 final_data = {}
 
-with open("./data/ghost-land-3dsdb-data-initial_data-games.json", "r") as fp:
+with open("./data/source/ghost-land-3dsdb-data-initial_data-games.json", "r") as fp:
     all_games_data: list[dict[str, str]] = json.load(fp)
 
 # Read in hax0kartik's regional JSONs
-with open("./data/list_US.json", "r") as fp:
+with open("./data/source/list_US.json", "r") as fp:
     raw_titles_US: list[dict[str, str]] = json.load(fp)
 # with open("./data/list_JP.json", "r") as fp:
 # raw_titles_JP: list[dict[str, str]] = json.load(fp)

@@ -6,12 +6,12 @@ This is a SvelteKit 5 + TypeScript + TailwindCSS v4 application that displays Ni
 
 ## Build & Development Commands
 
-All commands run from the `app/` directory:
+All commands run from the `web/` directory:
 
 ```bash
 # Development
 bun run dev              # Start Vite dev server
-bun run build            # Build for production (output: app/build/)
+bun run build            # Build for production (output: web/build/)
 bun run preview          # Preview production build
 
 # Type Checking
@@ -104,8 +104,8 @@ bun run lint             # Check formatting with Prettier (read-only)
 
 ### Data Files
 
-- Title databases are stored as JSON in `src/lib/` (generated from scripts in `src/data/`)
-- Do not manually edit generated JSON files; regenerate using Python scripts in `src/scripts/`
+- Title databases are stored as JSON in `data/generated` (generated from scripts in `scripts/`)
+- Do not manually edit generated JSON files; regenerate using Python scripts in `scripts/`
 
 ## Architecture Notes
 

@@ -20,10 +20,10 @@
    c. `wget https://github.com/ghost-land/3dsdb/raw/refs/heads/main/data/initial_data/virtual-console.json -O ghost-land-3dsdb-initial_data-virtual_console.json`
    d. `wget https://github.com/ghost-land/3dsdb/raw/refs/heads/main/data/initial_data/dsiware.json -O ghost-land-3dsdb-initial_data-dsiware.json`
 
-3. Copy them to `src/data` and `cd src`
+3. Copy them to `data/source`
 
 4. Run `uv run scripts/make_local_list.py`
 
 5. Run `uv run scripts/make_fallback_list.py`
 
-6. List generated at `data/final_local_title_list.json` and `data/final_fallback_title_list.json`. Use in app for local query and escalate to API.
+6. List generated at `data/generated/final_local_title_list.json` and `data/generated/final_fallback_title_list.json`. Use in web app for local query and escalate to API.

@@ -1,8 +1,8 @@
 import json
 
 files = {
-    "./data/list_US.json": "USA",
-    "./data/list_GB.json": "EUR",
+    "./data/source/list_US.json": "USA",
+    "./data/source/list_GB.json": "EUR",
 }
 
 final_data = {}
@@ -33,5 +33,5 @@ for f, r in files.items():
             # "boxArtUrl": data["media"]["thumbnails"][0] if len(data["media"]["thumbnails"]) > 0 else "",
         }
 
-with open("./data/final_local_title_list.json", "w") as fp:
+with open("./data/generated/final_local_title_list.json", "w") as fp:
     json.dump(final_data, fp, indent=2)

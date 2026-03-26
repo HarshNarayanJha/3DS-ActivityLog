@@ -1,7 +1,7 @@
 3ds-save-tool
+input
 output
-src/in
 saves
-src/data
 *.o
 designs
+data

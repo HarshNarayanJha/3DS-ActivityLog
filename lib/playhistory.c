@@ -14,7 +14,7 @@ struct PlayEntry {
 } __attribute__((packed));
 
 int main() {
-  FILE *pedo = fopen("data/PlayHistory.dat", "rb");
+  FILE *pedo = fopen("output/PlayHistory.dat", "rb");
   if (!pedo) {
     perror("Failed to open PlayHistory.dat");
     return 1;

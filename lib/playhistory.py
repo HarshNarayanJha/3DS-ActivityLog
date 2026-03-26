@@ -7,7 +7,7 @@ START_ENTRY_SIZE = 4  # u32 4 bytes
 TOTAL_ENTRIES_SIZE = 4  # u32 4 bytes
 RECORD_SIZE = 12  # u32 (titleID-high, 4 bytes) + u32 (titleID-low, 4 bytes) + u32 (28 bits (timestamp) + 4 bits (log info), 4 bytes)
 
-with open("data/PlayHistory.dat", "rb") as f:
+with open("output/PlayHistory.dat", "rb") as f:
     record_num = 0
     data = f.read(START_ENTRY_SIZE)
     (start_entry,) = struct.unpack("<I", data)
@@ -17,7 +17,7 @@ with open("data/PlayHistory.dat", "rb") as f:
     (total_entries,) = struct.unpack("<I", data)
     print(f"TOTAL ENTRIES: {total_entries}")
 
-    csv_file = open("data/playhistory.csv", "w", newline="")
+    csv_file = open("output/playhistory.csv", "w", newline="")
     csv_writer = csv.writer(csv_file)
     # Record Index number (from 0), TID Low, TID High, Log info flags, UNIX timestamp
     csv_writer.writerow(["Record", "TID", "Log_Info", "Timestamp"])
@@ -49,4 +49,4 @@ with open("data/PlayHistory.dat", "rb") as f:
         csv_writer.writerow(r)
 
     csv_file.close()
-    print("wrote to data/playhistory.csv.")
+    print("wrote to output/playhistory.csv.")
