@@ -15,27 +15,28 @@
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^3.0.10",
-    "@sveltejs/kit": "^2.49.1",
+    "@sveltejs/kit": "^2.55.0",
     "@sveltejs/vite-plugin-svelte": "^6.2.1",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.17",
     "@types/luxon": "^3.7.1",
-    "prettier": "^3.7.4",
-    "prettier-plugin-svelte": "^3.4.0",
+    "prettier": "^3.8.1",
+    "prettier-plugin-svelte": "^3.5.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "svelte": "^5.45.5",
-    "svelte-check": "^4.3.4",
-    "tailwindcss": "^4.1.17",
-    "typescript": "^5.9.3",
+    "svelte": "^5.55.0",
+    "svelte-check": "^4.4.5",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2",
     "vite": "^7.2.6"
   },
   "dependencies": {
-    "bits-ui": "^2.14.4",
+    "bits-ui": "^2.16.3",
     "luxon": "^3.7.2",
     "mode-watcher": "^1.1.0",
     "svelte-file-dropzone": "^2.0.9"
   },
   "trustedDependencies": [
-    "@tailwindcss/oxide"
+    "@tailwindcss/oxide",
+    "esbuild"
   ]
 }
