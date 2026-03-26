@@ -27,7 +27,7 @@
 
 <div class="grid min-h-[70svh] w-full grid-cols-1 gap-4 px-16 py-24">
   <TopScreen>
-    <div class="mx-auto aspect-[1.63] h-auto w-full bg-gray-50">
+    <div class="mx-auto aspect-[1.63] h-auto w-full bg-gray-50 text-neutral-800">
       {#if selectedTitle && gState.playStats && gState.playStats.titles.has(selectedTitle)}
         <TitleStatsCard titleStats={gState.playStats?.titles.get(selectedTitle!)!} />
       {/if}
@@ -35,7 +35,7 @@
   </TopScreen>
 
   <BottomScreen>
-    <div class="mx-auto aspect-[1.38] h-auto w-full bg-gray-200">
+    <div class="mx-auto aspect-[1.38] h-auto w-full bg-gray-200 text-neutral-800">
       <TitleGrid titles={gState.playStats?.titles ?? new Map()} bind:selectedTitle />
     </div>
   </BottomScreen>

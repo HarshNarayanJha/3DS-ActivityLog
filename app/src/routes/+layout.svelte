@@ -5,8 +5,6 @@
   import { ModeWatcher } from "mode-watcher"
 
   let { children } = $props()
-
-  export const ssr = false
 </script>
 
 <ModeWatcher />
