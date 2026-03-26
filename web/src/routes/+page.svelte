@@ -1,64 +1,65 @@
 <script lang="ts">
-  import { PlayHistoryParser } from "$/lib/parser"
-  import FileUpload from "$components/FileUpload.svelte"
-  import { globalState as gState } from "$/lib/global.svelte"
-  import { stats } from "$/lib/3dsdbapi"
-  import { tick } from "svelte"
-  import { MUSIC_MAP } from "$/lib/ui-types"
-  import TopHomeScreen from "$components/landing/TopHomeScreen.svelte"
-  import BottomHomeScreen from "$components/landing/BottomHomeScreen.svelte"
-  import ActivityLogHome from "$components/ActivityLogHome.svelte"
+import { stats } from "$/lib/3dsdbapi"
+import { globalState as gState } from "$/lib/global.svelte"
+import { PlayHistoryParser } from "$/lib/parser"
+import { MUSIC_MAP } from "$/lib/ui-types"
+import ActivityLogHome from "$components/ActivityLogHome.svelte"
+import FileUpload from "$components/FileUpload.svelte"
+import BottomHomeScreen from "$components/landing/BottomHomeScreen.svelte"
+import TopHomeScreen from "$components/landing/TopHomeScreen.svelte"
+import Button from "@ui/Button.svelte"
+import { tick } from "svelte"
 
-  let csvFile = $state<File | null>(null)
-  let isLoading = $state(false)
+let csvFile = $state<File | null>(null)
+let isLoading = $state(false)
 
-  let showFile3DS = $derived(isLoading || !gState.isStable)
-  gState.audioSrc = MUSIC_MAP.HOME
+let showFile3DS = $derived(isLoading || !gState.isStable)
+gState.audioSrc = MUSIC_MAP.HOME
 
-  const onUpload = async (file: File) => {
-    isLoading = true
-    await tick()
+const onUpload = async (file: File) => {
+  isLoading = true
+  await tick()
 
-    csvFile = file
-    const parser = new PlayHistoryParser()
+  csvFile = file
+  const parser = new PlayHistoryParser()
 
-    try {
-      const contents = await csvFile.text()
-      gState.playHistory = await parser.parse(contents)
-      gState.buildPlayStats()
-      console.log(stats)
-      // console.log(
-      //   gState.dates
-      //     .entries()
-      //     .map(([x, v]) => [x, v.toString()])
-      //     .toArray()
-      // )
+  try {
+    const contents = await csvFile.text()
+    gState.playHistory = await parser.parse(contents)
+    gState.buildPlayStats()
+    console.log(stats)
+    // console.log(
+    //   gState.dates
+    //     .entries()
+    //     .map(([x, v]) => [x, v.toString()])
+    //     .toArray()
+    // )
 
-      if (gState.playHistory === null) {
-        console.error("Error Parsing PlayHistory")
-        csvFile = null
-        gState.audioSrc = MUSIC_MAP.HOME
-      }
-
-      if (gState.playStats === null) {
-        console.error("Error Parsing PlayStats")
-        csvFile = null
-        gState.audioSrc = MUSIC_MAP.HOME
-      }
-
-      console.log(`${gState.playHistory.size} Play Entries parsed`)
-      console.log(`${gState.playStats?.totalTitles} total title stats`)
-    } catch (error) {
-      console.error(error)
-      gState.reset()
+    if (gState.playHistory === null) {
+      console.error("Error Parsing PlayHistory")
       csvFile = null
       gState.audioSrc = MUSIC_MAP.HOME
     }
 
-    gState.audioSrc = MUSIC_MAP.ACTIVITY_LOG
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    isLoading = false
+    if (gState.playStats === null) {
+      console.error("Error Parsing PlayStats")
+      csvFile = null
+      gState.audioSrc = MUSIC_MAP.HOME
+    }
+
+    console.log(`${gState.playHistory.size} Play Entries parsed`)
+    console.log(`${gState.playStats?.totalTitles} total title stats`)
+  } catch (error) {
+    console.error(error)
+    gState.reset()
+    csvFile = null
+    gState.audioSrc = MUSIC_MAP.HOME
   }
+
+  gState.audioSrc = MUSIC_MAP.ACTIVITY_LOG
+  await new Promise((resolve) => setTimeout(resolve, 2000))
+  isLoading = false
+}
 </script>
 
 <svelte:head>
@@ -79,12 +80,5 @@
     </BottomHomeScreen>
   {:else}
     <ActivityLogHome playStats={gState.playStats!} />
-    <!-- <ActivityLogViewer
-      playHistory={gState.playHistory!}
-      dates={gState.dates}
-      firstDate={gState.firstDate!}
-      lastDate={gState.lastDate!}
-      years={gState.years}
-    /> -->
   {/if}
 </div>
