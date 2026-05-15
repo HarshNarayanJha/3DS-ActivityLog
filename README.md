@@ -7,7 +7,9 @@ https://3dbrew.org/wiki/System_SaveData
 
 This clearly lists the Playtime data is in the `nand:/data/<ID0>/sysdata/00010022/`
 
-I was being dumb and searched in `0x00020202 	0x00020212 	0x00020222 	Activity Log application savegame` only to find `pld.dat` containing the app's save
+I was being dumb and searched in `0x00020202 	0x00020212 	0x00020222 	Activity Log application savegame` only to find `pld.dat` containing the app's save.
+
+UPDATE: Now the only above said file will save the project.
 
 Now I have the `Pedometer.dat` and `PlayHistory.dat` files
 
@@ -19,7 +21,10 @@ Thanks to TollyH https://gbatemp.net/threads/playhistory-dat-timestamp.580853/po
 
 and https://gbatemp.net/threads/playhistory-dat-timestamp.580853/post-10085500 for the gm9 script
 
-## Steps to get your .dat files
+## Steps to get your .dat files (deprecated)
+
+This method is no longer recommended as it is lengthy, error-prone and has unnecessary steps.
+Follow the updated guide [here](./docs/data-extraction/ptm.md)
 
 1. Clone this repo
 2. `mkdir input` (we will store the file from 3DS in here)

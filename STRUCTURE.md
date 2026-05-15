@@ -24,7 +24,7 @@
 │   └-- generated/          # Processed title databases
 │
 ├-- input/                  # Raw input data from 3DS
-│
+├-- saves/                  # Raw save data from 3DS
 ├-- output/                 # Processed output files
 │
 ├-- examples/               # Example data for testing
@@ -51,5 +51,6 @@
 | `scripts/`  | Python scripts for generating title databases |
 | `data/`     | Title lists XML and JSON                      |
 | `input/`    | Place raw 3DS extracted files here            |
+| `saves/`    | Place raw 3DS save files here                 |
 | `output/`   | Processed data from `lib/` scripts            |
 | `examples/` | Sample data for testing/demo                  |
