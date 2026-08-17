@@ -9,5 +9,3 @@ bun.lockb
 /static/
 
 *.d.ts
-
-src/lib/components/ui

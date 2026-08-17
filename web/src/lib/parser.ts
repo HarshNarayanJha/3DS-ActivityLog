@@ -25,7 +25,18 @@ export class PlayHistoryParser {
 
     console.log(`Ready to parse ${lines.length} Lines`)
 
-    // skip header
+    // check header
+    const header = lines[0].trim().split(",")
+    if (
+      header.length !== 4 ||
+      header[0].toLowerCase() !== "record" ||
+      header[1].toLowerCase() !== "tid" ||
+      header[2].toLowerCase() !== "loginfo" ||
+      header[3].toLowerCase() !== "timestamp"
+    ) {
+      throw new Error("Invalid CSV header. Expected: Record,TID,LogInfo,Timestamp")
+    }
+
     for (let i = 1; i < lines.length; i++) {
       const values = lines[i].trim().split(",")
 
@@ -59,7 +70,7 @@ export class PlayHistoryParser {
       }
 
       if (entryType === EntryType.APPLICATION && titleData === undefined) {
-        throw new Error(`Invalid Data. Expected SYSTEM event but Title Data not found. ${record}`)
+        throw new Error(`Invalid Data. Expected APPLICATION event but Title Data not found. ${record}`)
       }
 
       if (entryType === EntryType.APPLET && appletData === undefined) {
@@ -95,6 +106,10 @@ export class PlayHistoryParser {
     if (tid === SYSTEM_EVENT_TID) {
       // system event
       return {}
+    }
+
+    if (tid.length !== 16) {
+      throw new Error(`Invalid TID: ${tid}. Expected 16 characters but got ${tid.length}.`)
     }
 
     const [tidHigh, tidLow] = [tid.slice(0, 8), tid.slice(8, 16)]

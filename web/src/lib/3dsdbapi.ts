@@ -122,7 +122,8 @@ const parseRegion = (region: string): Region => {
     case "Region Free":
       return "Region Free"
     default:
-      return region as Region
+      console.warn(`Unknown region: ${region}, defaulting to Region Free`)
+      return "Region Free"
   }
 }
 

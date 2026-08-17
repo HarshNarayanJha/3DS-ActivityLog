@@ -26,8 +26,9 @@ decryption tools in the [legacy](ptm-legacy.md) guide.
 
 1. Insert your 3DS SD card into your computer.
 2. Navigate to `SD:/JKSV/SysSave/00010022/PTMDump/`.
-3. You will see your fully decrypted `PlayHistory.dat` and `Pedometer.dat` files.
-4. Copy both files into the `input/` directory of this repository.
+3. I soon found a new way to get these files directly
+4. You will see your fully decrypted `PlayHistory.dat` and `Pedometer.dat` files.
+5. Copy both files into the `input/` directory of this repository.
 
 ## Step 3: Convert .dat to CSV
 

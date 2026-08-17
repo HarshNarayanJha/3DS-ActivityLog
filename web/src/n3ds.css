@@ -1,0 +1,24 @@
+@theme inline {
+  /* Core 3DS Color Palette */
+  --color-3ds-bg: #e5e7eb; /* The standard light gray background */
+  --color-3ds-surface: #ffffff; /* White panels */
+  --color-3ds-accent: #38bdf8; /* The iconic Nintendo highlight blue */
+  --color-3ds-text: #4b5563; /* Soft dark gray for text */
+  --color-3ds-border: #b0b8c4; /* Distinct, slightly darker gray for borders */
+
+  /* 3DS Specific Shadows */
+  /* The "glossy plastic" feel comes from an inner white shine combined with a soft drop shadow */
+  --shadow-3ds-button: 0 4px 0 0 #b0b8c4, 0 4px 4px rgba(0, 0, 0, 0.1);
+  --shadow-3ds-button-active: 0 0px 0 0 #b0b8c4, 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-3ds-panel:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1), inset 0 2px 4px 0 rgba(255, 255, 255, 0.8);
+
+  /* Typography */
+  --font-3ds: "Nunito", "Segoe UI", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-3ds-bg font-3ds text-3ds-text;
+  }
+}

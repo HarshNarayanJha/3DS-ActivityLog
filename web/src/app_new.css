@@ -1,0 +1,248 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/*@import "./n3ds.css";*/
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* 3DS Colors - Light Mode (Standard) */
+  --background: #e6e6e6; /* The classic gray plastic background */
+  --background-alt: #f0f0f0;
+  --foreground: #4a4a4a; /* Soft dark gray text */
+  --foreground-alt: #6b6b6b;
+  --muted: #d4d4d4;
+  --muted-foreground: #808080;
+
+  /* Thick, tactile borders */
+  --border: #bfbfbf;
+  --border-input: #cccccc;
+  --border-input-hover: #00c3e3;
+  --border-card: #ffffff;
+
+  /* 3DS Accents */
+  --accent: #00c3e3; /* Nintendo Cyan */
+  --accent-foreground: #ffffff;
+  --destructive: #ff3b30; /* Mario Red */
+  --tertiary: #4cd964; /* Luigi Green */
+
+  /* 3DS Glossy/Physical Shadows */
+  /* Replaces flat shadows with tactile inset glows and hard drops */
+  --shadow-btn: 0 4px 0 #b3b3b3, inset 0 2px 2px rgba(255, 255, 255, 0.9);
+  --shadow-btn-active: 0 0px 0 #b3b3b3, inset 0 2px 4px rgba(0, 0, 0, 0.15);
+  --shadow-card: 0 4px 15px rgba(0, 0, 0, 0.1), inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+  --shadow-popover: 0 8px 30px rgba(0, 0, 0, 0.25), inset 0 0 0 2px rgba(255, 255, 255, 0.8);
+  --shadow-input-focus: 0 0 0 3px rgba(0, 195, 227, 0.4);
+}
+
+/*.dark {
+  --background: #1a1a1a;
+  --background-alt: #242424;
+  --foreground: #e6e6e6;
+  --foreground-alt: #a3a3a3;
+  --muted: #333333;
+  --muted-foreground: #737373;
+
+  --border: #404040;
+  --border-input: #4d4d4d;
+  --border-input-hover: #00e5ff;
+  --border-card: #333333;
+
+  --accent: #009bb5;
+  --accent-foreground: #ffffff;
+  --destructive: #cc2f26;
+  --tertiary: #3ca84e;
+
+  --shadow-btn: 0 4px 0 #0d0d0d, inset 0 2px 2px rgba(255, 255, 255, 0.1);
+  --shadow-btn-active: 0 0px 0 #0d0d0d, inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 0 0 2px rgba(255, 255, 255, 0.05);
+  --shadow-popover: 0 8px 30px rgba(0, 0, 0, 0.6), inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+  --shadow-input-focus: 0 0 0 3px rgba(0, 155, 181, 0.4);
+}*/
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-alt: var(--background-alt);
+  --color-foreground: var(--foreground);
+  --color-foreground-alt: var(--foreground-alt);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-border-input: var(--border-input);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --shadow-btn: var(--shadow-btn);
+  --shadow-btn-active: var(--shadow-btn-active);
+  --shadow-card: var(--shadow-card);
+  --shadow-popover: var(--shadow-popover);
+
+  --radius-card: 24px;
+  --radius-input: 12px;
+  --radius-button: 9999px; /* Pill shapes for main buttons */
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-scale-in: scale-in 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --animate-scale-out: scale-out 0.15s ease;
+  --animate-fade-in: fade-in 0.2s ease;
+  --animate-fade-out: fade-out 0.15s ease;
+
+  --font-sans: "Nunito", "Varela Round", "system-ui", sans-serif;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--bits-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--bits-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+
+  @keyframes caret-blink {
+    0%,
+    70%,
+    100% {
+      opacity: 1;
+    }
+    20%,
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes enter-from-right {
+    from {
+      opacity: 0;
+      transform: translateX(200px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes enter-from-left {
+    from {
+      opacity: 0;
+      transform: translateX(-200px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes exit-to-right {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(200px);
+    }
+  }
+
+  @keyframes exit-to-left {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(-200px);
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: rotateX(-10deg) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: rotateX(0deg) scale(1);
+    }
+  }
+
+  @keyframes scale-out {
+    from {
+      opacity: 1;
+      transform: rotateX(0deg) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: rotateX(-10deg) scale(0.95);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  --animate-sway: sway 3s ease-in-out infinite alternate;
+
+  @keyframes sway {
+    0% {
+      transform: translateY(-2%);
+    }
+    100% {
+      transform: translateY(2%);
+    }
+  }
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop {
+    border-color: var(--border);
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    /* 3DS often has subtle diagonal stripes or textures, could add a CSS pattern here later */
+  }
+
+  ::selection {
+    @apply bg-accent text-white;
+  }
+}
+
+@layer components {
+  *:not(body):not(.focus-override) {
+    outline: none !important;
+    &:focus-visible {
+      @apply focus-visible:ring-4 focus-visible:ring-accent/50 focus-visible:outline-none;
+    }
+  }
+}
+
+@utility no-scrollbar {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
