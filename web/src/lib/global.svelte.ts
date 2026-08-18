@@ -45,12 +45,10 @@ export class GlobalState {
       ?.values()
       ?.reduce((acc, { summary: { playtimeSeconds } }) => acc + playtimeSeconds, 0) ?? 0
   )
-  titles = $derived(this.pldSummaries?.keys().map((tid) => tid) ?? [])
 
   playStats = $derived({
     totalTitles: this.totalTitles,
-    totalPlayTimeSeconds: this.totalPlayTimeSeconds,
-    titles: this.titles
+    totalPlayTimeSeconds: this.totalPlayTimeSeconds
   })
 
   reset() {
