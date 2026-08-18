@@ -1,84 +1,71 @@
 <script lang="ts">
-import { stats } from "$/lib/3dsdbapi"
 import { globalState as gState } from "$/lib/global.svelte"
-import { PlayHistoryParser } from "$/lib/parser"
+import { PLDParser } from "$/lib/pldparser"
 import { MUSIC_MAP } from "$/lib/ui-types"
-import ActivityLogHome from "$components/ActivityLogHome.svelte"
-import FileUpload from "$components/FileUpload.svelte"
+import { goto } from "$app/navigation"
+import { resolve } from "$app/paths"
 import BottomHomeScreen from "$components/landing/BottomHomeScreen.svelte"
 import TopHomeScreen from "$components/landing/TopHomeScreen.svelte"
-import Button from "@ui/Button.svelte"
-import { tick } from "svelte"
+import Uploader from "$components/landing/Uploader.svelte"
 
-let csvFile = $state<File | null>(null)
-let isLoading = $state(false)
-
-let showFile3DS = $derived(isLoading || !gState.isStable)
 gState.audioSrc = MUSIC_MAP.HOME
 
-const onUpload = async (file: File) => {
-  isLoading = true
-  await tick()
+let isLoading = $state(false)
 
-  csvFile = file
-  const parser = new PlayHistoryParser()
+let pldSessionFile: File | null = $state(null)
+let pldSummaryFile: File | null = $state(null)
+
+const openClicked = async () => {
+  if (pldSessionFile === null || pldSummaryFile === null) {
+    console.error("pldSessionFile or pldSummaryFile is null")
+    return
+  }
+
+  isLoading = true
 
   try {
-    const contents = await csvFile.text()
-    gState.playHistory = await parser.parse(contents)
-    gState.buildPlayStats()
-    console.log(stats)
-    // console.log(
-    //   gState.dates
-    //     .entries()
-    //     .map(([x, v]) => [x, v.toString()])
-    //     .toArray()
-    // )
+    const parser = new PLDParser()
+    gState.pldSessions = await parser.parseSession(await pldSessionFile.text())
+    gState.pldSummaries = await parser.parseSummary(await pldSummaryFile.text())
 
-    if (gState.playHistory === null) {
-      console.error("Error Parsing PlayHistory")
-      csvFile = null
-      gState.audioSrc = MUSIC_MAP.HOME
+    console.log(`${gState.pldSessions?.size} total sessions parsed`)
+    console.log(`${gState.pldSummaries?.size} total summaries parsed`)
+
+    if (gState.pldSessions === null) {
+      throw new Error("Error Parsing PLD Sessions")
     }
 
-    if (gState.playStats === null) {
-      console.error("Error Parsing PlayStats")
-      csvFile = null
-      gState.audioSrc = MUSIC_MAP.HOME
+    if (gState.pldSummaries === null) {
+      throw new Error("Error Parsing PLD Summaries")
     }
 
-    console.log(`${gState.playHistory.size} Play Entries parsed`)
-    console.log(`${gState.playStats?.totalTitles} total title stats`)
+    gState.audioSrc = null
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    goto(resolve("/log"))
   } catch (error) {
     console.error(error)
     gState.reset()
-    csvFile = null
-    gState.audioSrc = MUSIC_MAP.HOME
+  } finally {
+    isLoading = false
   }
-
-  gState.audioSrc = MUSIC_MAP.ACTIVITY_LOG
-  await new Promise((resolve) => setTimeout(resolve, 2000))
-  isLoading = false
 }
+
+$inspect(gState.pldSessions).with(console.log)
+$inspect(gState.pldSummaries).with(console.log)
 </script>
 
 <svelte:head>
-  {#if showFile3DS}
-    <title>Activity Upload | 3DS Activity Log</title>
-    <meta name="description" content="Upload your 3DS Activity Log File" />
-  {:else}
-    <title>Activity Log Home | 3DS Activity Log</title>
-    <meta name="description" content="3DS Activity Log Home" />
-  {/if}
+  <title>Activity Upload | 3DS Activity Log</title>
+  <meta name="description" content="Upload your 3DS Activity Log File" />
 </svelte:head>
 
 <div class="grid min-h-[70svh] w-full grid-cols-1 gap-4 px-16 py-24">
-  {#if showFile3DS}
-    <TopHomeScreen {isLoading} />
-    <BottomHomeScreen {isLoading}>
-      <FileUpload onSuccessfulUpload={onUpload} />
-    </BottomHomeScreen>
-  {:else}
-    <ActivityLogHome playStats={gState.playStats!} />
-  {/if}
+  <TopHomeScreen {isLoading} />
+
+  <BottomHomeScreen
+    {isLoading}
+    openEnabled={pldSessionFile !== null && pldSummaryFile !== null}
+    onOpenClicked={openClicked}>
+    <Uploader bind:pldSessionFile bind:pldSummaryFile />
+  </BottomHomeScreen>
 </div>

@@ -1,10 +1,12 @@
 <script lang="ts">
-  import "$/app.css"
-  import Navbar from "$components/Navbar.svelte"
-  import MusicManager from "$components/MusicManager.svelte"
-  import { ModeWatcher } from "mode-watcher"
+import "./layout.css"
 
-  let { children } = $props()
+import MusicManager from "$components/MusicManager.svelte"
+import Navbar from "$components/Navbar.svelte"
+
+import { ModeWatcher } from "mode-watcher"
+
+let { children } = $props()
 </script>
 
 <ModeWatcher />

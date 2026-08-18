@@ -1,5 +1,7 @@
 import type { DateTime } from "luxon"
 
+/** PTM playhistory.csv parsing */
+
 export enum PlayEvent {
   OPEN,
   CLOSE,
@@ -93,4 +95,46 @@ export type PlayStats = {
   totalTitles: number
   totalPlayTime: number
   titles: Map<string, TitleStats>
+}
+
+/** PLD.dat (pld_sessions.csv and pld_summary.csv parsing) */
+
+/**
+ * Each session entry of pld.dat sessions
+ * @field tid - Title ID
+ * @field timestamp - Session timestamp YYYY-MM-DDTHH:00 (hour scoped)
+ * @field playtimeSeconds - Playtime in seconds (within that hour window, 0-3600)
+ */
+export type PLDSession = {
+  tid: string
+  timestamp: DateTime<true>
+  playtimeSeconds: number
+}
+
+export type PLDSessionDataEntry = {
+  title?: TitleData
+  applet?: AppletData
+  session: PLDSession
+}
+
+/**
+ * Each entry of pld.dat title level summaries
+ * @field tid - Title ID
+ * @field playtimeSeconds - Total playtime in seconds (lifetime)
+ * @field launches - Total number of launches (lifetime)
+ * @field firstPlayed - First play timestamp (YYYY-MM-DD)
+ * @field lastPlayed - Last play timestamp (YYYY-MM-DD)
+ */
+export type PLDSummary = {
+  tid: string
+  playtimeSeconds: number
+  launches: number
+  firstPlayed: DateTime<true>
+  lastPlayed: DateTime<true>
+}
+
+export type PLDSummaryDataEntry = {
+  title?: TitleData
+  applet?: AppletData
+  summary: PLDSummary
 }

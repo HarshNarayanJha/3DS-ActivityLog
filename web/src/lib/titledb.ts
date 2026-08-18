@@ -1,4 +1,5 @@
 import { base, resolve } from "$app/paths"
+
 import type { AppletData, TitleData } from "./types"
 
 export const SYSTEM_APPLICATIONS_TIDHIGH = "00040010"
@@ -271,10 +272,22 @@ export const SYSTEM_APPLETS: Record<string, AppletData> = {
     serial: "CTR-N-HMV?",
     regions: ["USA"]
   },
+  "00009300": {
+    tid: "0004003000009300",
+    appletName: "Game Notes",
+    serial: "CTR-N-HGM?",
+    regions: ["USA"]
+  },
   "00009302": {
     tid: "0004003000009302",
     appletName: "Game Notes",
     serial: "CTR-N-HGM?",
+    regions: ["USA"]
+  },
+  "00009400": {
+    tid: "0004003000009400",
+    appletName: "Internet Browser",
+    serial: "",
     regions: ["USA"]
   },
   "00009402": {
@@ -301,10 +314,22 @@ export const SYSTEM_APPLETS: Record<string, AppletData> = {
     serial: "",
     regions: ["USA", "JPN", "EUR", "CHN", "KOR", "TWN"]
   },
+  "00009600": {
+    tid: "0004003000009600",
+    appletName: "Friends List",
+    serial: "CTR-N-HFR?",
+    regions: ["USA"]
+  },
   "00009602": {
     tid: "0004003000009602",
     appletName: "Friends List",
     serial: "CTR-N-HFR?",
+    regions: ["USA"]
+  },
+  "00009700": {
+    tid: "0004003000009700",
+    appletName: "Notifications",
+    serial: "CTR-N-HCR?",
     regions: ["USA"]
   },
   "00009702": {
@@ -379,6 +404,12 @@ export const SYSTEM_APPLETS: Record<string, AppletData> = {
     serial: "CTR-N-HAA?",
     regions: ["USA"]
   },
+  "0000BD00": {
+    tid: "000400300000BD00",
+    appletName: "Miiverse",
+    serial: "CTR-N-HAE?",
+    regions: ["USA"]
+  },
   "0000BD02": {
     tid: "000400300000BD02",
     appletName: "Miiverse",
@@ -395,6 +426,12 @@ export const SYSTEM_APPLETS: Record<string, AppletData> = {
     tid: "0004003000008B02",
     appletName: "In-app Miiverse-posting applet ",
     serial: "CTR-N-HAH?",
+    regions: ["USA"]
+  },
+  "00009E00": {
+    tid: "0004003000009E00",
+    appletName: "Cabinet (Amiibo Settings)",
+    serial: "CTR-N-HA3?",
     regions: ["USA"]
   },
   "00009E02": {

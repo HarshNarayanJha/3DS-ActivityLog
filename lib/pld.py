@@ -15,7 +15,7 @@ def timestamp_to_date(timestamp):
     total_days = timestamp // 86400
     hour = (timestamp % 86400) // 3600
     date_str = days_to_date(total_days)
-    return f"{date_str} {hour:02d}:00"
+    return f"{date_str}T{hour:02d}:00"
 
 
 def parse_pld(input_path):

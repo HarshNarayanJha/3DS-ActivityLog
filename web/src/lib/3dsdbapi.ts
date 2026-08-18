@@ -1,7 +1,7 @@
-import type { Region, TitleData } from "./types"
-import rawTitleDB from "./final_local_title_list.json"
 import rawFallbackDB from "./final_fallback_title_list.json"
 import rawHBDB from "./final_hb_title_list.json"
+import rawTitleDB from "./final_local_title_list.json"
+import type { Region, TitleData } from "./types"
 
 const titleDB: Record<string, any> = rawTitleDB as Record<string, any>
 const fallbackDB: Record<string, any> = rawFallbackDB as Record<string, any>
@@ -106,20 +106,26 @@ export const getTitle = async (tid: string): Promise<TitleData> => {
 }
 
 const parseRegion = (region: string): Region => {
-  switch (region) {
-    case "JPN":
+  switch (region.toLowerCase()) {
+    case "jpn":
+    case "japan":
       return "Japan"
-    case "USA":
+    case "usa":
+    case "north america":
       return "North America"
-    case "EUR":
+    case "eur":
+    case "europe":
       return "Europe"
-    case "KOR":
+    case "kor":
+    case "korea":
       return "Korea"
-    case "TWN":
+    case "twn":
+    case "taiwan":
       return "Taiwan"
-    case "CHN":
+    case "chn":
+    case "china":
       return "China"
-    case "Region Free":
+    case "region free":
       return "Region Free"
     default:
       console.warn(`Unknown region: ${region}, defaulting to Region Free`)
